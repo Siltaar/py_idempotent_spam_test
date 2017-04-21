@@ -27,11 +27,11 @@ Cython compilation was 50% slower in this edge case.
 ## Example
 
 ### `fdm.conf` example :
-  match all action rewrite "python2 -SE spam_test_rewrite2.py" continue
-  match "^X-Spam-Score: 1$" in headers action maildir "%h/.Maildir/.spam"
-  match "^X-Spam-Score: [2-9]$" in headers action maildir "%h/.Maildir/.furspam"
+`match all action rewrite "python2 -SE spam_test_rewrite2.py" continue`
+`match "^X-Spam-Score: 1$" in headers action maildir "%h/.Maildir/.spam"`
+`match "^X-Spam-Score: [2-9]$" in headers action maildir "%h/.Maildir/.furspam"`
 
 ## Tests
 
 To run the embeded testsuite :
-  python -m doctest spam_test_rewrite2.py
+`python -m doctest spam_test_rewrite2.py`
