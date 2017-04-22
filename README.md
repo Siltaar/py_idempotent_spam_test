@@ -2,8 +2,8 @@
 Test the spam probability of an email based on idempotent rules (no learning).
 
 Both expect email input via stdin.
-`spam_test.py` outputs the score on the standard output.
-`spam_test_rewrite.py` rewrites the email to stdout adding an `X-Spam-Score` header.
+- `spam_test.py` outputs the score on the standard output.
+- `spam_test_rewrite.py` rewrites the email to stdout adding an `X-Spam-Score` header.
 
 Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` or `rewrite` action.
 
