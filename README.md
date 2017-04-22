@@ -1,9 +1,11 @@
-# spam_test_rewrite
+# spam_test and spam_test_rewrite
 Test the spam probability of an email based on idempotent rules (no learning).
 
-Expect email input via stdin and rewrite it to stdout adding an `X-Spam-Score` header.
+Both expect email input via stdin.
+`spam_test.py` outputs the score on the standard output.
+`spam_test_rewrite.py` rewrites the email to stdout adding an `X-Spam-Score` header.
 
-Created to be used with [FDM](https://github.com/nicm/fdm) in a `rewrite` action.
+Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` or `rewrite` action.
 
 ## Rules and scores
 
@@ -24,9 +26,20 @@ The Python 3 version is also provided.
 
 Cython compilation was 50% slower in this edge case.
 
+`spam_test.py` is 50% quicker than `spam_test_rewrite` and works with both Python 2.7 and 3.x.
+
 ## Example
 
-### `fdm.conf` example :
+### `spam_test` `fdm.conf` example :
+
+`match pipe "python spam_test.py" returns (,'^([0-9]+)$') action tag "%[command0]" continue`
+
+`match tagged "1" action maildir "%h/.Maildir/.spam"`
+
+`match tagged "2" action maildir "%h/.Maildir/.furspam"`
+
+
+### `spam_test_rewrite` `fdm.conf` example :
 
 `match all action rewrite "python2 -SE spam_test_rewrite2.py" continue`
 
@@ -37,4 +50,8 @@ Cython compilation was 50% slower in this edge case.
 ## Tests
 
 To run the embeded testsuite :
-`python -m doctest spam_test_rewrite2.py`
+`python2 -m doctest spam_test_rewrite2.py`
+
+`python3 -m doctest spam_test_rewrite3.py`
+
+`python -m doctest spam_test.py` (works with both Python 2.7 and 3.x)
