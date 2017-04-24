@@ -1,9 +1,9 @@
-# spam_test.py
+# spam_test
 Test the spam probability of an email based on idempotent rules (no learning).
 
-`spam_test.py` expect email input via stdin and outputs the spam score on the standard output.
+`spam_test` expect email input via stdin and outputs the spam score on the standard output.
 
-Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` or `rewrite` action.
+Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` action.
 
 ## Rules and scores
 
@@ -11,11 +11,11 @@ There are currently 2 sets of rules, each one is able to increment the spam scor
 
 ### Subject
 
-If the subject is missing, empty or contains less than half alphabetical letters, the spam score is incremented by 1.
+If the subject is missing, empty or contains less than half ASCII characters, the spam score is incremented by 1.
 
 ### Recipient count
 
-If there is no recipient or more than 9, the spam score is incremented by 1.
+If there is no recipients or more than 9, the spam score is incremented by 1.
 
 ## Performance note
 In a quest for performance, I compared Python 3 and Python 2 versions of the code. Python 2.7 appeared to be 20% to 30% quicker than Python 3.4 in Debian stable 8.7 for a sample of 200 randomly contact@ emails of a small french software company. So I kept the Python 2 version.
