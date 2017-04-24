@@ -28,11 +28,11 @@ Cython compilation was 50% slower in this edge case.
 
 ### `spam_test` `fdm.conf` example :
 
-`match pipe "python2 -SE spam_test2.py" returns (,'^([0-9]+)$') action tag "spam_score_%[command0]" continue`
-
-`match tagged "spam_score_1" action maildir "%h/.Maildir/.spam"`
-
-`match tagged "spam_score_2" action maildir "%h/.Maildir/.furspam"`
+```
+match pipe "python2 -SE spam_test2.py" returns (,'^([0-9]+)$') action tag "spam_score_%[command0]" continue
+match tagged "spam_score_1" action maildir "%h/.Maildir/.spam"
+match tagged "spam_score_2" action maildir "%h/.Maildir/.furspam"
+```
 
 
 ## Tests
