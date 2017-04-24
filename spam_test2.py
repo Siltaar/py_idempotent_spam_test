@@ -33,6 +33,9 @@ Opw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6k=?=')
 		2
 		>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=')
 		2
+		>>> spam_test('Subject: =?utf-8?B?UmU656CU5Y+R57uPIOeQhueahOmihiDlr7zl\
+ipsg5LiOIOaJp+ihjCDlips=?=')
+		2
 		>>> spam_test('Subject: Encoding érror')
 		2
 	"""
@@ -46,13 +49,13 @@ Opw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6k=?=')
 
 	ascii_length = len(refined_subject.encode('ascii', 'ignore'))
 
-	if ascii_length == 0 or len(refined_subject) / ascii_length > 2:
-		score += 1  # If not 1 ascii letter over 2 in the subject, I don't want to read it
+	if ascii_length == 0 or len(refined_subject) / ascii_length >= 2:
+		score += 1  # If no more than 1 ascii character over 2 in subject, I can't read it
 
 	recipient_count = len(getaddresses(eml.get_all('to', []) + eml.get_all('cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
-		score += 1  # If there is no or more than 20 recipients, it may be a spam
+		score += 1  # If there is no or more than 9 recipients, it may be a spam
 
 	# print(eml, file=stderr)
 	# print('%s score %i ascii %i To: %i' % (
