@@ -4,8 +4,7 @@
 # licence: GPLv3
 
 from __future__ import print_function
-from io import TextIOWrapper
-from sys import stdin #, stderr
+from sys import stdin  # , stderr
 from email.parser import Parser
 from email.header import decode_header as decode_h
 from email.header import make_header as make_h
@@ -18,8 +17,8 @@ def spam_test(stdin_eml):
 		0
 		>>> spam_test('To:\\nSubject: Missing recipient should be scored 1')
 		1
-		>>> spam_test('To:a@a.tk, b@b.tk, c@c.tk, d@d.tk, e@e.tk, f@f.tk, g@g.tk,\
-			h@h.tk, i@i.tk, j@j.tk\\nSubject: More than 9 recipients, scored 1')
+		>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk, \
+			h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1')
 		1
 		>>> spam_test('To:a@a.tk\\nSubject: Not half ASCII =?utf-8?b?w6nDqcOpw\
 6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6n\
@@ -27,7 +26,7 @@ DqcOpw6nDqQ==?=')
 		1
 		>>> spam_test('To:No subject scored 1 <a@a.tk>')
 		1
-		>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD\
+		>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD \
 qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6nDqc\
 Opw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6k=?=')
 		2
@@ -50,7 +49,7 @@ ipsg5LiOIOaJp+ihjCDlips=?=')
 	ascii_length = len(refined_subject.encode('ascii', 'ignore'))
 
 	if ascii_length == 0 or len(refined_subject) / ascii_length >= 2:
-		score += 1  # If no more than 1 ascii character over 2 in subject, I can't read it
+		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 
 	recipient_count = len(getaddresses(eml.get_all('to', []) + eml.get_all('cc', [])))
 
