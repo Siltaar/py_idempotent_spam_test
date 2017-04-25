@@ -18,23 +18,24 @@ def spam_test(stdin_eml):
 		0
 		>>> spam_test('To:\\nSubject: Missing recipient should be scored 1')
 		1
-		>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk, \
-			h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1')
+		>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk,'
+		... 'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1')
 		1
-		>>> spam_test('To:a@a.tk\\nSubject: Not half ASCII =?utf-8?b?w6nDqcOpw\
-6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6n\
-DqcOpw6nDqQ==?=')
+		>>> spam_test('To:a@a.tk\\nSubject: Not half ASCII =?utf-8?b?w6nDqcOpw'
+		... '6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?'
+		... 'b?w6nDqcOpw6nDqcOpw6nDqQ==?=')
 		1
 		>>> spam_test('To:No subject scored 1 <a@a.tk>')
 		1
-		>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD \
-qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6nDqc\
-Opw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?w6nDqcOpw6k=?=')
+		>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD'
+		... 'qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n =?utf-8?b?'
+		... 'w6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?='
+		... '\\n =?utf-8?b?w6nDqcOpw6k=?=')
 		2
 		>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=')
 		2
-		>>> spam_test('Subject: =?utf-8?B?UmU656CU5Y+R57uPIOeQhueahOmihiDlr7zl\
-ipsg5LiOIOaJp+ihjCDlips=?=')
+		>>> spam_test('Subject: =?utf-8?B?UmU656CU5Y+R57uPIOeQhueahOmihiDlr7zl'
+		... 'ipsg5LiOIOaJp+ihjCDlips=?=')
 		2
 	"""
 	eml = Parser().parsestr(stdin_eml, headersonly=True)  # Parse header of stdin piped email
