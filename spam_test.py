@@ -21,6 +21,9 @@ def spam_test(stdin_eml):
 		1
 		>>> spam_test('Subject: No recp, 1 non-alpha =?utf-8?b?w6k=?= scored 1')
 		1
+		>>> spam_test('Subject: Enough ASCII letters should be score 1 =?gb231'
+		... '2?B?vNLT0NChxau499bW1sa3/sC009W78w==?=')
+		1
 		>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk,'
 		...	'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1')
 		1
