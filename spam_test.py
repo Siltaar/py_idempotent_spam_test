@@ -45,7 +45,7 @@ def spam_test(stdin_eml):
 	score = 0
 
 	if eml.get('X-Spam-Status', '').lower() == 'yes' or \
-			eml.get('X-Spam-Flag', '').lower() == 'yes':
+		eml.get('X-Spam-Flag', '').lower() == 'yes':
 		score += 1  # if already flagged as spam, we should get cautious
 
 	subj_len, subj_alpha_len = header_alpha_length(eml.get('Subject', ''))
@@ -64,7 +64,7 @@ def spam_test(stdin_eml):
 		score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
 
 	# print('score %i alpha %i To: %i alpha_To %i' % (
-	#	score, subj_alpha_len, recipient_count, from_alpha_len), file=stderr)
+	# 	score, subj_alpha_len, recipient_count, from_alpha_len), file=stderr)
 	print(str(score), end='')
 
 
@@ -82,8 +82,10 @@ def header_alpha_length(h):
 	return h_len, h_alpha_len
 
 
-try: a=type(unicode)  # If unicode is missing we're in Python 3, should fix this
-except: globals()['unicode'] = lambda s: str(s)
+try:
+	a = type(unicode)  # If unicode is missing we're in Python 3, should fix this
+except:
+	globals()['unicode'] = lambda s: str(s)
 
 if __name__ == "__main__":
 	if version_info.major > 2:
