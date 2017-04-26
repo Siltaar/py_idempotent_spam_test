@@ -53,7 +53,7 @@ def spam_test(stdin_eml):
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 
-	recipient_count = len(getaddresses(eml.get_all('to', []) + eml.get_all('cc', [])))
+	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
@@ -72,6 +72,7 @@ def header_alpha_length(h):
 	try:
 		refined_h = unicode(make_header(decode_header(h)))
 	except:
+		# print(e, file=stderr)
 		refined_h = ''
 
 	# print(refined_h, end=' ', file=stderr)
@@ -81,7 +82,7 @@ def header_alpha_length(h):
 	return h_len, h_alpha_len
 
 
-try: type(unicode)  # If unicode is missing we're in Python 3, should fix this
+try: a=type(unicode)  # If unicode is missing we're in Python 3, should fix this
 except: globals()['unicode'] = lambda s: str(s)
 
 if __name__ == "__main__":
