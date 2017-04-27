@@ -10,11 +10,11 @@ Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` action.
 
 There are currently 3 sets of rules, each one is able to increment the spam score by 1.
 
-### Subject and From
+### Subject and From alphabetic letters
 
-If the subject is missing, empty or contains less than half ASCII characters, the spam score is incremented by 1.
+If the subject is missing, empty or contains less than half ASCII alphabetic letters, the spam score is incremented by 1.
 
-If the From name-part is not empty but contains less than half ASCII characters, the spam score is incremented by 1.
+If the From name-part is not empty but contains less than half ASCII letters, the spam score is incremented by 1.
 
 ### Recipient count
 
