@@ -37,7 +37,7 @@ def spam_test(stdin_eml):
 		2
 		>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=')
 		2
-		>>> spam_test('Subject: =?gb2312?B?Encoding error 代 ?=')
+		>>> spam_test('Subject: =?gb2312?B?Encoding error score 2 代 =?=')
 		2
 		>>> spam_test('X-Spam-Status: Yes')
 		3
@@ -47,24 +47,24 @@ def spam_test(stdin_eml):
 	eml = Parser().parsestr(stdin_eml, headersonly=True)  # Parse header of stdin piped email
 	score = 0
 
-	if eml.get('X-Spam-Status', '').lower() == 'yes' or \
-		eml.get('X-Spam-Flag', '').lower() == 'yes':
-		score += 1  # if already flagged as spam, we should get cautious
-
 	subj_len, subj_alpha_len = header_alpha_length(eml.get('Subject', ''))
 
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
+
+	from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
+
+	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
+		score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
 
-	from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
-
-	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-		score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
+	if eml.get('X-Spam-Status', '').lower() == 'yes' or \
+		eml.get('X-Spam-Flag', '').lower() == 'yes':
+		score += 1  # if already flagged as spam, we should get cautious
 
 	# print('score %i alpha %i To: %i alpha_To %i' % (
 	# 	score, subj_alpha_len, recipient_count, from_alpha_len), file=stderr)
@@ -85,10 +85,8 @@ def header_alpha_length(h):
 	return h_len, h_alpha_len
 
 
-try:
-	a = type(unicode)  # If unicode is missing we're in Python 3, should fix this
-except:
-	globals()['unicode'] = lambda s: str(s)
+if version_info.major > 2:  # In Python 3: str is the new unicode
+	unicode = str
 
 if __name__ == "__main__":
 	if version_info.major > 2:
