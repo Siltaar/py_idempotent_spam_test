@@ -41,6 +41,8 @@ def spam_test(stdin_eml):
 		2
 		>>> spam_test('X-Spam-Status: Yes')
 		3
+		>>> spam_test('X-Spam-Level: ****')
+		3
 		>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>')
 		3
 	"""
@@ -63,7 +65,8 @@ def spam_test(stdin_eml):
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
 
 	if eml.get('X-Spam-Status', '').lower() == 'yes' or \
-		eml.get('X-Spam-Flag', '').lower() == 'yes':
+		eml.get('X-Spam-Flag', '').lower() == 'yes' or \
+		len(eml.get('X-Spam-Level', '')) > 3:
 		score += 1  # if already flagged as spam, we should get cautious
 
 	# print('score %i alpha %i To: %i alpha_To %i' % (
