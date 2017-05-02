@@ -8,13 +8,13 @@ from sys import stdin, stderr, version_info
 from email.parser import Parser
 from email.header import decode_header
 from email.header import make_header
-from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz, formatdate
+from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz, formatdate  # noqa
 from curses.ascii import isalpha
 from datetime import datetime, timedelta
-from calendar import timegm
+from calendar import timegm  # noqa
 
 
-DEBUG=False
+DEBUG = False
 
 
 def spam_test(stdin_eml):
@@ -102,7 +102,7 @@ def spam_test(stdin_eml):
 		score += 1
 
 	if eml_date < far_past or eml_date > far_futur:
-		debug("far date")
+		debug("far date ")
 		score += 1
 
 	if eml.get('X-Spam-Status', '').lower() == 'yes' or \
