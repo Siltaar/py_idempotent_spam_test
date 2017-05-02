@@ -4,84 +4,128 @@
 # licence: GPLv3
 
 from __future__ import print_function
-from sys import stdin, version_info
-# from sys import stderr
+from sys import stdin, stderr, version_info
 from email.parser import Parser
 from email.header import decode_header
 from email.header import make_header
-from email.utils import getaddresses, parseaddr
+from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz, formatdate
 from curses.ascii import isalpha
+from datetime import datetime, timedelta
+from calendar import timegm
+
+
+DEBUG=False
 
 
 def spam_test(stdin_eml):
 	"""
-		>>> spam_test('From:Bb<b@b.tk>\\nTo:a@a.tk\\nSubject:"Normal" eml ok')
+		>>> spam_test('From:Bb<b@b.tk>\\nTo:a@a.tk\\nSubject:"Normal" eml ok'
+		... '\\nDate: '+formatdate())
 		0
-		>>> spam_test('To:\\nSubject: Missing recipient should be scored 1')
+		>>> spam_test('To:\\nSubject: Missing recipient should be scored 1'
+		... '\\nDate: '+formatdate())
 		1
-		>>> spam_test('Subject: No recp, 1 non-alpha =?utf-8?b?w6k=?= scored 1')
+		>>> spam_test('Subject: No recp, 1 non-alpha =?utf-8?b?w6k=?= scored 1'
+		... '\\nDate: '+formatdate())
 		1
 		>>> spam_test('Subject: Enough ASCII letters should be score 1 =?gb231'
-		... '2?B?vNLT0NChxau499bW1sa3/sC009W78w==?=')
+		... '2?B?vNLT0NChxau499bW1sa3/sC009W78w==?=\\nDate: '+formatdate())
 		1
 		>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk,'
-		...	'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1')
+		...	'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1'
+		... '\\nDate: '+formatdate())
 		1
 		>>> spam_test('To:a@a.tk\\nSubject: Not half ASCII =?utf-8?b?w6nDqcOpw'
-		...	'6nDqcOpw6nDqcOpw6k=?=')
+		...	'6nDqcOpw6nDqcOpw6k=?=\\nDate: '+formatdate())
 		1
-		>>> spam_test('To:No subject scored 1 <a@a.tk>')
+		>>> spam_test('To:No subject scored 1 <a@a.tk>\\nDate: '+formatdate())
 		1
 		>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD'
-		...	'qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=')
+		...	'qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?='
+		... '\\nDate: '+formatdate())
 		2
-		>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=')
+		>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?='
+		... '\\nDate: '+formatdate())
 		2
-		>>> spam_test('Subject: =?gb2312?B?Encoding error score 2 代 =?=')
+		>>> spam_test('Subject: =?gb2312?B?Encoding error score 2 代 =?='
+		... '\\nDate: '+formatdate())
 		2
+		>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>\\nDate: '+formatdate())
+		3
+		>>> spam_test('Subject: Far past +15 days\\nDate: Wed, 26 Apr 2016 16:20:14 +0200')
+		3
+		>>> spam_test('Subject: Near past +6 h\\nDate: '
+		... +formatdate(timegm((datetime.utcnow() - timedelta(hours=7)).timetuple())))
+		2
+		>>> spam_test('Subject: Near futur -2 h\\nDate: '
+		... +formatdate(timegm((datetime.utcnow() + timedelta(hours=3)).timetuple())))
+		2
+		>>> spam_test('Subject: Far futur -2 days\\nDate: Wed, 26 Apr 9999 16:20:14 +0200')
+		3
 		>>> spam_test('X-Spam-Status: Yes')
-		3
+		5
 		>>> spam_test('X-Spam-Level: ****')
-		3
-		>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>')
-		3
+		5
 	"""
 	eml = Parser().parsestr(stdin_eml, headersonly=True)  # Parse header of stdin piped email
 	score = 0
 
+	debug("-> %s " % eml.get('Subject', ''))
 	subj_len, subj_alpha_len = header_alpha_length(eml.get('Subject', ''))
 
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
+		debug("subj_len %s, subj_alpha_len %i " % (subj_len, subj_alpha_len))
 
 	from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
 
 	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 		score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
+		debug("from_len %i, from_alpha_len %i " % (from_len, from_alpha_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
+		debug("recipients %i " % (recipient_count))
+
+	now_date = datetime.utcnow()
+	near_past = now_date - timedelta(hours=6)
+	near_futur = now_date + timedelta(hours=2)
+	far_past = now_date - timedelta(days=15)
+	far_futur = now_date + timedelta(days=2)
+	eml_date = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
+		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
+
+	if eml_date < near_past or eml_date > near_futur:
+		debug("near date eml %s now %s " % ((eml_date), str(now_date)))
+		score += 1
+
+	if eml_date < far_past or eml_date > far_futur:
+		debug("far date")
+		score += 1
 
 	if eml.get('X-Spam-Status', '').lower() == 'yes' or \
 		eml.get('X-Spam-Flag', '').lower() == 'yes' or \
 		len(eml.get('X-Spam-Level', '')) > 3:
 		score += 1  # if already flagged as spam, we should get cautious
 
-	# print('score %i alpha %i To: %i alpha_To %i' % (
-	# 	score, subj_alpha_len, recipient_count, from_alpha_len), file=stderr)
+	debug('score %s\n' % score)
 	print(str(score), end='')
+
+
+def debug(s):
+	if DEBUG:
+		print(s, end='', file=stderr)
 
 
 def header_alpha_length(h):
 	try:
 		refined_h = unicode(make_header(decode_header(h)))
-	except:
-		# print(e, file=stderr)
+	except Exception as e:
+		debug(str(e) + '\n',)
 		refined_h = ''
 
-	# print(refined_h, end=' ', file=stderr)
 	h_len = len(refined_h)
 	ascii_h = refined_h.encode('ascii', 'ignore')
 	h_alpha_len = len([c for c in ascii_h if isalpha(c)])

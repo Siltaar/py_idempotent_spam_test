@@ -8,7 +8,7 @@ Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` action.
 
 ## Rules and scores
 
-There are currently 3 sets of rules, each one is able to increment the spam score by 1.
+There are currently 4 sets of rules, each one is able to increment the spam score by 1.
 
 ### Subject and From alphabetic letters
 
@@ -19,6 +19,12 @@ If the From name-part is not empty but contains less than half ASCII letters, th
 ### Recipient count
 
 If there is no recipients or more than 9, the spam score is incremented by 1.
+
+### Date and time
+
+If the date and time of the email is in the future, more than 2h (or more than 2 days) the spam score is incremented by 1 (or 2).
+
+If the date and time of the email is in the past, more than 6h (or more than 6 days) the spam score is incremented by 1 (or 2).
 
 ### X-Spam-Status
 
