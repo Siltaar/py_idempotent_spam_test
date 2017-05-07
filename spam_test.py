@@ -79,19 +79,19 @@ def spam_test(stdin_eml):
 	subj_len, subj_alpha_len = header_alpha_length(eml.get('Subject', ''))
 
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
-		score += 1	# If no more than 1 ascii char over 2 in subject, I can't read it
+		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug("subj_len %s, subj_alpha_len %i " % (subj_len, subj_alpha_len))
 
 	from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
 
 	if score > 0 and from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-		score += 1	# If no more than 1 ascii char over 2 in from name, I can't read it
+		score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
 		debug("from_len %i, from_alpha_len %i " % (from_len, from_alpha_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
-		score += 1	# If there is no or more than 9 recipients, it may be a spam
+		score += 1  # If there is no or more than 9 recipients, it may be a spam
 		debug("recipients %i " % (recipient_count))
 
 	recv = eml.get('Received', ';Sat, 01 Jan 9999 01:01:01 +0000')
@@ -112,9 +112,9 @@ def spam_test(stdin_eml):
 		score += 1
 
 	if score > 0 and (eml.get('X-Spam-Status', '').lower() == 'yes' or
-		eml.get('X-Spam-Flag', '').lower() == 'yes' or
-		len(eml.get('X-Spam-Level', '')) > 3):
-		score += 1	# if already flagged as spam, we should take extra care
+			eml.get('X-Spam-Flag', '').lower() == 'yes' or
+			len(eml.get('X-Spam-Level', '')) > 3):
+		score += 1  # if already flagged as spam, we should take extra care
 
 	debug('score %s\n' % score)
 	print(str(score))
@@ -138,7 +138,7 @@ def header_alpha_length(h):
 	return h_len, h_alpha_len
 
 
-if version_info.major > 2:	# In Python 3: str is the new unicode
+if version_info.major > 2:  # In Python 3: str is the new unicode
 	unicode = str
 
 if __name__ == "__main__":
