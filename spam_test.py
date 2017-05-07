@@ -20,52 +20,52 @@ DEBUG = False
 def spam_test(stdin_eml):
 	"""
 	>>> spam_test('From:Bb<b@b.tk>\\nTo:a@a.tk\\nSubject:"Normal" eml ok\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	0
 	>>> spam_test('To:\\nSubject: Missing recipient should be scored 1\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	1
 	>>> spam_test('Subject: No recp, 1 non-alpha =?utf-8?b?w6k=?= scored 1\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	1
 	>>> spam_test('Subject: Enough ASCII letters should be score 1 =?gb231'
 	... '2?B?vNLT0NChxau499bW1sa3/sC009W78w==?=\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	1
 	>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk,'
 	...	'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	1
 	>>> spam_test('To:a@a.tk\\nSubject:Not 1/2 ASCII =?utf-8?b?w6nDqcOpw6nDqcOpw6nD=?=\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	1
 	>>> spam_test('To:No subject scored 1 <a@a.tk>\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	1
 	>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD'
 	...	'qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	2
 	>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	2
 	>>> spam_test('Subject: =?gb2312?B?Encoding error score 2 代 =?=\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:;Wed, 26 Apr 2017 16:21:14 +0200')
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
 	2
 	>>> spam_test('Subject: Near past +6 h \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
-	... 'Received: ;Wed, 26 Apr 2017 22:21:14 +0200')
+	... 'Received:Wed, 26 Apr 2017 22:21:14 +0200')
 	2
 	>>> spam_test('Subject: Near futur -2 h\\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
-	... 'Received: ;Wed, 26 Apr 2017 14:19:14 +0200')
+	... 'Received:Wed, 26 Apr 2017 14:19:14 +0200')
 	2
 	>>> spam_test('Subject: Far past +15 d \\nDate: Tue, 11 Apr 2017 16:20:14 +0200\\n'
-	... 'Received: ;Wed, 26 Apr 2016 14:21:14 +0200')
+	... 'Received:Wed, 26 Apr 2016 14:21:14 +0200')
 	3
 	>>> spam_test('Subject: Far futur -2 d \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
-	... 'Received: ;Mon, 24 Apr 2016 16:19:14 +0200')
+	... 'Received:Mon, 24 Apr 2016 16:19:14 +0200')
 	3
 	>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>\\nDate: Wed, 26 Apr '
-	... '2017 16:20:14 +0200\\nReceived: ;Wed, 26 Apr 2017 16:25:14 +0200')
+	... '2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:25:14 +0200')
 	3
 	>>> spam_test('X-Spam-Status: Yes')
 	5
@@ -94,8 +94,8 @@ def spam_test(stdin_eml):
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
 		debug("recipients %i " % (recipient_count))
 
-	recv = eml.get('Received', ';Sat, 01 Jan 9999 01:01:01 +0000')
-	recv_date = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(recv.split(';')[1])))
+	recv = eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')
+	recv_date = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(recv[-30:])))
 	near_past = recv_date - timedelta(hours=6)
 	near_futur = recv_date + timedelta(hours=2)
 	far_past = recv_date - timedelta(days=15)
