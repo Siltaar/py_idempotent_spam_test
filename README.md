@@ -12,9 +12,7 @@ There are currently 4 sets of rules, each one is able to increment the spam scor
 
 ### Subject and From alphabetic letters
 
-If the subject is missing, empty or contains less than half ASCII alphabetic letters, the spam score is incremented by 1.
-
-If the spam score is already more than one, and if the From name-part is not empty but contains less than half ASCII letters, the spam score is incremented by 1.
+If the subject is missing, empty or contains less than half ASCII alphabetic letters, the spam score is incremented by 1 and the From header name part is tested also, incrementing the score again by 1 in the same conditions.
 
 ### Recipient count
 
@@ -22,9 +20,9 @@ If there is no recipients or more than 9, the spam score is incremented by 1.
 
 ### Date and time
 
-If the date and time of the email is in the future compared to the Received date and time, more than 2h (or more than 2 days) the spam score is incremented by 1 (or 2).
+If the date and time of the Date header of the email is in the future compared to the last Received header, more than 2h (or more than 2 days) the spam score is incremented by 1 (or 2).
 
-If the date and time of the email is in the past compared to the Received date and time, more than 6h (or more than 6 days) the spam score is incremented by 1 (or 2).
+If it's more than 6h in the past (or more than 6 days) the spam score is incremented by 1 (or 2).
 
 ### X-Spam-Status
 

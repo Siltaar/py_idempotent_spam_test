@@ -82,11 +82,11 @@ def spam_test(stdin_eml):
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug("subj_len %s, subj_alpha_len %i " % (subj_len, subj_alpha_len))
 
-	from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
+		from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
 
-	if score > 0 and from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-		score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
-		debug("from_len %i, from_alpha_len %i " % (from_len, from_alpha_len))
+		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
+			score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
+			debug("from_len %i, from_alpha_len %i " % (from_len, from_alpha_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
@@ -94,22 +94,18 @@ def spam_test(stdin_eml):
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
 		debug("recipients %i " % (recipient_count))
 
-	recv = eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')
-	recv_date = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(recv[-30:])))
-	near_past = recv_date - timedelta(hours=6)
-	near_futur = recv_date + timedelta(hours=2)
-	far_past = recv_date - timedelta(days=15)
-	far_futur = recv_date + timedelta(days=2)
-	eml_date = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
+	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
+		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
+	eml_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
 
-	if eml_date < near_past or eml_date > near_futur:
-		debug("near date %s recv %s " % ((eml_date), str(recv_date)))
+	if eml_dt < recv_dt - timedelta(hours=6) or eml_dt > recv_dt + timedelta(hours=2):
+		debug("near date %s recv %s " % ((eml_dt), str(recv_dt)))
 		score += 1
 
-	if eml_date < far_past or eml_date > far_futur:
-		debug("far date ")
-		score += 1
+		if eml_dt < recv_dt - timedelta(days=15) or eml_dt > recv_dt + timedelta(days=2):
+			debug("far date ")
+			score += 1
 
 	if score > 0 and (eml.get('X-Spam-Status', '').lower() == 'yes' or
 			eml.get('X-Spam-Flag', '').lower() == 'yes' or
