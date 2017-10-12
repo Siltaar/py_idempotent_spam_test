@@ -14,79 +14,96 @@ from datetime import datetime, timedelta
 from calendar import timegm  # noqa
 
 
-DEBUG = False
+DEBUG = 0
 
 
 def spam_test(stdin_eml):
 	"""
-	>>> spam_test('From:Bb<b@b.tk>\\nTo:a@a.tk\\nSubject:"Normal" eml ok\\n'
-	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
+	>>> spam_test('From:Bb<b@b.tk>\\nTo:a@a.tk\\nSubject:eml ok\\nContent-Type: text/plain;\\n'
+	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200\\n'
+	... 'Coucou\\n')
 	0
 	>>> spam_test('To:\\nSubject: Missing recipient should be scored 1\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	1
+	2
 	>>> spam_test('Subject: No recp, 1 non-alpha =?utf-8?b?w6k=?= scored 1\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	1
+	2
 	>>> spam_test('Subject: Enough ASCII letters should be score 1 =?gb231'
 	... '2?B?vNLT0NChxau499bW1sa3/sC009W78w==?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	1
+	2
 	>>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk,'
 	...	'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 1\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	1
+	2
 	>>> spam_test('To:a@a.tk\\nSubject:Not 1/2 ASCII =?utf-8?b?w6nDqcOpw6nDqcOpw6nD=?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	1
+	2
 	>>> spam_test('To:No subject scored 1 <a@a.tk>\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	1
+	2
 	>>> spam_test('Subject: no To no ASCII scored 2=?utf-8?b?w6nDqcOpw6nD'
 	...	'qcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6k=?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	2
+	3
 	>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	2
+	3
 	>>> spam_test('Subject: =?gb2312?B?Encoding error score 2 代 =?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200')
-	2
+	3
 	>>> spam_test('Subject: Near past +6 h \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
 	... 'Received:Wed, 26 Apr 2017 22:21:14 +0200')
-	2
+	3
 	>>> spam_test('Subject: Near futur -2 h\\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
 	... 'Received:Wed, 26 Apr 2017 14:19:14 +0200')
-	2
+	3
 	>>> spam_test('Subject: Far past +15 d \\nDate: Tue, 11 Apr 2017 16:20:14 +0200\\n'
 	... 'Received:Wed, 26 Apr 2016 14:21:14 +0200')
-	3
+	4
 	>>> spam_test('Subject: Far futur -2 d \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
 	... 'Received:Mon, 24 Apr 2016 16:19:14 +0200')
-	3
+	4
 	>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>\\nDate: Wed, 26 Apr '
 	... '2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:25:14 +0200')
-	3
+	4
 	>>> spam_test('X-Spam-Status: Yes')
-	5
+	6
 	>>> spam_test('X-Spam-Level: ****')
-	5
+	6
+	>>> spam_test(open('test_email/20171010.eml').read())  # chinese content
+	2
+	>>> spam_test(open('test_email/20171012.eml').read())  # no text/plain part
+	2
 	"""
-	eml = Parser().parsestr(stdin_eml, headersonly=True)  # Parse header of stdin piped email
+	eml = Parser().parsestr(stdin_eml)
 	score = 0
-
 	debug("-> %s " % eml.get('Subject', ''))
-	subj_len, subj_alpha_len = header_alpha_length(eml.get('Subject', ''))
+	subj_len, subj_alpha_len = header_alpha_len(eml.get('Subject', ''))
 
-	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
+	if subj_alpha_len == 0 or subj_len // subj_alpha_len >= 2:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
-		debug("subj_len %s, subj_alpha_len %i " % (subj_len, subj_alpha_len))
+		debug("subj_len %i / %i " % (subj_len, subj_alpha_len))
 
-		from_len, from_alpha_len = header_alpha_length(parseaddr(eml.get('From', ''))[0])
+		from_len, from_alpha_len = header_alpha_len(parseaddr(eml.get('From', ''))[0])
 
-		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-			score += 1  # If no more than 1 ascii char over 2 in from name, I can't read it
-			debug("from_len %i, from_alpha_len %i " % (from_len, from_alpha_len))
+		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len >= 2):
+			score += 1
+			debug("from_len %i / %i " % (from_len, from_alpha_len))
+
+	body=''
+
+	for a in eml.walk() :
+		if a.get_content_type() == 'text/plain':
+			body = a.get_payload(decode=True)[:64]
+			break;
+
+	body_len, body_alpha_len = alpha_len(body)
+
+	if body_alpha_len == 0 or body_len // body_alpha_len >= 2:
+		score += 1
+		debug("body_len %i / %i " % (body_len, body_alpha_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
@@ -103,7 +120,8 @@ def spam_test(stdin_eml):
 		debug("near date %s recv %s " % ((eml_dt), str(recv_dt)))
 		score += 1
 
-		if eml_dt < recv_dt - timedelta(days=15) or eml_dt > recv_dt + timedelta(days=2):
+		if eml_dt < recv_dt - timedelta(days=15) or \
+			eml_dt > recv_dt + timedelta(days=2):
 			debug("far date ")
 			score += 1
 
@@ -121,17 +139,22 @@ def debug(s):
 		print(s, end='', file=stderr)
 
 
-def header_alpha_length(h):
+def header_alpha_len(h):
 	try:
 		refined_h = unicode(make_header(decode_header(h)))
 	except Exception as e:
 		debug(str(e) + '\n')
 		refined_h = ''
+	return alpha_len(refined_h)
 
-	h_len = len(refined_h)
-	ascii_h = refined_h.encode('ascii', 'ignore')
-	h_alpha_len = len([c for c in ascii_h if isalpha(c)])
-	return h_len, h_alpha_len
+
+def alpha_len(s):
+	if type(s) is not unicode:
+		s = unicode(s, errors='ignore')
+	s_len = len(s)
+	ascii_s = s.encode('ascii', errors='ignore')
+	s_alpha_len = len([c for c in ascii_s if isalpha(c)])
+	return s_len, s_alpha_len
 
 
 if version_info.major > 2:  # In Python 3: str is the new unicode
