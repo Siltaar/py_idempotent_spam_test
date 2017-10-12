@@ -1,7 +1,7 @@
 Test the spam probability of an email based on idempotent rules (no learning).
 
 `spam_test.py` expect email input via stdin and outputs the spam score on the standard output. +
-Created to be used with [FDM](https://github.com/nicm/fdm) in a `pipe` action.
+Created to be used with https://github.com/nicm/fdm[FDM] in a `pipe` action.
 
 ## Rules and scores
 There are currently 4 sets of rules, each one is able to increment the spam score by 1.
