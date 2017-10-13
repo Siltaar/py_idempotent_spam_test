@@ -74,7 +74,7 @@ def spam_test(stdin_eml):
 	6
 	>>> spam_test(open('test_email/20171010.eml').read())  # chinese content
 	2
-	>>> spam_test(open('test_email/20171012.eml').read())  # no text/plain part
+	>>> spam_test(open('test_email/20171012.eml').read())  # no text nor HTML part
 	2
 	"""
 	eml = Parser().parsestr(stdin_eml)
@@ -82,34 +82,36 @@ def spam_test(stdin_eml):
 	debug("-> %s " % eml.get('Subject', ''))
 	subj_len, subj_alpha_len = header_alpha_len(eml.get('Subject', ''))
 
-	if subj_alpha_len == 0 or subj_len // subj_alpha_len >= 2:
+	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
-		debug("subj_len %i / %i " % (subj_len, subj_alpha_len))
+		debug("subj %i / %i " % (subj_len, subj_alpha_len))
 
 		from_len, from_alpha_len = header_alpha_len(parseaddr(eml.get('From', ''))[0])
 
-		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len >= 2):
+		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 			score += 1
-			debug("from_len %i / %i " % (from_len, from_alpha_len))
+			debug("from %i / %i " % (from_len, from_alpha_len))
 
 	body=''
 
 	for a in eml.walk() :
-		if a.get_content_type() == 'text/plain':
+		if 'text' in a.get_content_type():
+			# debug('ctype %s ' % a.get_content_type())
 			body = a.get_payload(decode=True)[:64]
 			break;
 
 	body_len, body_alpha_len = alpha_len(body)
+	# debug("forced body %s %i / %i " % (body, body_len, body_alpha_len))
 
-	if body_alpha_len == 0 or body_len // body_alpha_len >= 2:
+	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
-		debug("body_len %i / %i " % (body_len, body_alpha_len))
+		debug("body %i / %i " % (body_len, body_alpha_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
-		debug("recipients %i " % (recipient_count))
+		debug("dests %i " % (recipient_count))
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
@@ -117,7 +119,7 @@ def spam_test(stdin_eml):
 		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
 
 	if eml_dt < recv_dt - timedelta(hours=6) or eml_dt > recv_dt + timedelta(hours=2):
-		debug("near date %s recv %s " % ((eml_dt), str(recv_dt)))
+		debug("near date %s recv %s " % (eml_dt, recv_dt))
 		score += 1
 
 		if eml_dt < recv_dt - timedelta(days=15) or \

@@ -1,8 +1,8 @@
 Return-Path: <mailman-bounces@lists.ddd.org>
 Delivered-To: aaa@bbb.fr
 X-policyd-weight: using cached result; rate:hard: -6.1
-	Received: by ccc (fdm 1.9, account "bbb")
-with pop3 (version=TLSv1/SSLv3 DHE-RSA-AES256-GCM-SHA384 256 bits)
+Received: by ccc (fdm 1.9, account "bbb")
+	with pop3 (version=TLSv1/SSLv3 DHE-RSA-AES256-GCM-SHA384 256 bits)
 	Thu, 12 Oct 2017 14:14:02 +0200
 Received: from troll4.ddd.org (unknown [217.146.225.31])
 	by zat.globenet.org (Postfix) with ESMTP id DE14176138
