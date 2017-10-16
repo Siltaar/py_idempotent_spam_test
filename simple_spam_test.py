@@ -86,12 +86,6 @@ def spam_test(stdin_eml):
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug("subj %i / %i " % (subj_len, subj_alpha_len))
 
-		from_len, from_alpha_len = header_alpha_len(parseaddr(eml.get('From', ''))[0])
-
-		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-			score += 1
-			debug("from %i / %i " % (from_len, from_alpha_len))
-
 	body=''
 
 	for a in eml.walk() :
@@ -106,6 +100,13 @@ def spam_test(stdin_eml):
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
 		debug("body %i / %i " % (body_len, body_alpha_len))
+
+	if score > 0:
+		from_len, from_alpha_len = header_alpha_len(parseaddr(eml.get('From', ''))[0])
+
+		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
+			score += 1
+			debug("from %i / %i " % (from_len, from_alpha_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
