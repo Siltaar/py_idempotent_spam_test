@@ -29,6 +29,9 @@ Cython compilation was 2 times slower in this edge case.
 
 `-O` and `-OO` python's options are slowing down the computation by 3.
 
+## Efficiency note
+In the first 6 months I used `simple_spam_test` (between 2017-04 and 2017-10) on my inboxes, it saved me from reading 949 spams (with no false positive so far), 473 placed in purgatory zone and roughly 540 passed through. Thus it's a 72% of efficiency, with less than one saved-from-purgatory email a day.
+
 ## Example
 ### `fdm.conf` snippet :
 ```conf
