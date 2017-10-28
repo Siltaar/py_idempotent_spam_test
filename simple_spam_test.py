@@ -128,10 +128,10 @@ def spam_test(stdin_eml):
 			debug("far date ")
 			score += 1
 
-	if score > 0 and (eml.get('X-Spam-Status', '').lower() == 'yes' or
-			eml.get('X-Spam-Flag', '').lower() == 'yes' or
-			len(eml.get('X-Spam-Level', '')) > 3):
-		score += 1  # if already flagged as spam, we should take extra care
+	if (eml.get('X-Spam-Status', '').lower() == 'yes' or
+		eml.get('X-Spam-Flag', '').lower() == 'yes' or
+		len(eml.get('X-Spam-Level', '')) > 3):
+		score += 1
 
 	debug('score %s\n' % score)
 	print(str(score))
