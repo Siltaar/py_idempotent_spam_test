@@ -1,5 +1,11 @@
-import doctest
-from simple_spam_test import spam_test
+#!/usr/bin/env python2
+# coding: utf-8
+# author : Simon Descarpentries, 2017-10
+# licence: GPLv3
+
+from doctest import run_docstring_examples
+from datetime import datetime
+from simple_spam_test import test_spam_test, spam_test
 
 """
 20171012 3 : 17 tests ; 0.62s ; 0.364ms/t
@@ -11,10 +17,10 @@ from simple_spam_test import spam_test
 20171012 3 : 19 tests ; 0.99s ; 0.521ms/t
 """
 
-from datetime import datetime
 startTime = datetime.now()
+DEBUG = 0
 
-for i in range(0,100):
-	doctest.run_docstring_examples(spam_test, globals())
+for i in range(0, 100):
+	run_docstring_examples(test_spam_test, globals())
 
 print(datetime.now() - startTime)
