@@ -15,6 +15,8 @@ from simple_spam_test import test_spam_test, spam_test
 20171012 3 : 19 tests ; 0.90s ; 0.473ms/t
 20171012 2 : 19 tests ; 0.86s ; 0.452ms/t (check body readability)
 20171012 3 : 19 tests ; 0.99s ; 0.521ms/t
+20171124 2 : 20 tests ; 1.06s ; 0.530ms/t (check alnum characters)
+20171124 3 : 20 tests ; 1.20s ; 0.600ms/t
 """
 
 startTime = datetime.now()

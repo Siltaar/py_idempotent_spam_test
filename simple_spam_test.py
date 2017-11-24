@@ -9,7 +9,7 @@ from email.parser import Parser
 from email.header import decode_header
 from email.header import make_header
 from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz, formatdate  # noqa
-from curses.ascii import isalpha
+from curses.ascii import isalnum
 from datetime import datetime, timedelta
 from calendar import timegm  # noqa
 
@@ -154,7 +154,7 @@ def alpha_len(s):
 		s = unicode(s, errors='ignore')
 	s_len = len(s)
 	ascii_s = s.encode('ascii', errors='ignore')
-	s_alpha_len = len([c for c in ascii_s if isalpha(c)])
+	s_alpha_len = len([c for c in ascii_s if isalnum(c)])
 	return s_len, s_alpha_len
 
 
