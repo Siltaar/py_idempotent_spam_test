@@ -25,9 +25,11 @@ def spam_test(stdin_eml, debug=0):
 		debug and print("subj %i/%i " % (subj_alpha_len, subj_len), end='', file=stderr)
 
 	body=''
+	ctype=''
 
 	for a in eml.walk() :
-		if 'text' in a.get_content_type():
+		ctype = a.get_content_type()
+		if 'text' in ctype or 'pgp-encrypted' in ctype:
 			# debug and print('ctype %s ' % a.get_content_type(), end='', file=stderr)
 			body = a.get_payload(decode=True)[:256]
 			break;
@@ -136,6 +138,8 @@ def test_spam_test(stdin_eml):
 	2
 	>>> spam_test(open('test_email/20171107.eml').read(), DEBUG)  # longer chinese content
 	2
+	>>> spam_test(open('test_email/20171130.eml').read(), DEBUG)  # PGP ciphered email
+	0
 	"""
 	return spam_test(stdin_eml)
 
