@@ -18,30 +18,30 @@ def spam_test(stdin_eml, debug=0):
 	eml = Parser().parsestr(stdin_eml)
 	score = 0
 	debug and print("-> %s " % eml.get('Subject', ''), end='', file=stderr)
-	subj_len, subj_alpha_len = header_alpha_len(eml.get('Subject', ''))
+	subj_len, subj_alpha_len = email_alpha_len(eml.get('Subject', ''), header_txt)
 
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug and print("subj %i/%i " % (subj_alpha_len, subj_len), end='', file=stderr)
 
-	body=''
+	body_len, body_alpha_len = (0, 0)
 	ctype=''
 
 	for a in eml.walk() :
 		ctype = a.get_content_type()
+
 		if 'text' in ctype or 'pgp-encrypted' in ctype:
 			# debug and print('ctype %s ' % a.get_content_type(), end='', file=stderr)
-			body = a.get_payload(decode=True)[:256]
+			body_len, body_alpha_len = email_alpha_len(a,
+				lambda b : b.get_payload(decode=True)[:256])
 			break;
-
-	body_len, body_alpha_len = alpha_len(body)
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
 		debug and print("body %i/%i " % (body_alpha_len, body_len), end='', file=stderr)
 
 	if score > 0:
-		from_len, from_alpha_len = header_alpha_len(parseaddr(eml.get('From', ''))[0])
+		from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0],header_txt)
 
 		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 			score += 1
@@ -144,13 +144,13 @@ def test_spam_test(stdin_eml):
 	return spam_test(stdin_eml)
 
 
-def header_alpha_len(h):
+def email_alpha_len(t, f):
 	try:
-		refined_h = unicode(make_header(decode_header(h)))
+		refined_t = f(t)
 	except Exception as e:
 		print(str(e) + '\n', file=stderr)
-		refined_h = ''
-	return alpha_len(refined_h)
+		refined_t = ''
+	return alpha_len(refined_t)
 
 
 def alpha_len(s):
@@ -160,6 +160,10 @@ def alpha_len(s):
 	ascii_s = s.encode('ascii', errors='ignore')
 	s_alpha_len = len([c for c in ascii_s if isalnum(c)])
 	return s_len, s_alpha_len
+
+
+def header_txt(h):
+	return unicode(make_header(decode_header(h)))
 
 
 if version_info.major > 2:  # In Python 3: str is the new unicode
