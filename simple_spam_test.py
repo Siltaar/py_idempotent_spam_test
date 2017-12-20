@@ -140,6 +140,8 @@ def test_spam_test(stdin_eml):
 	2
 	>>> spam_test(open('test_email/20171130.eml').read(), DEBUG)  # PGP ciphered email
 	0
+	>>> spam_test(open('test_email/20171219.eml').read(), DEBUG)  # chinese base64 body
+	2
 	"""
 	return spam_test(stdin_eml)
 
@@ -154,9 +156,11 @@ def email_alpha_len(t, f):
 
 
 def alpha_len(s):
+	s_len = len(s)
+
 	if type(s) is not unicode:
 		s = unicode(s, errors='ignore')
-	s_len = len(s)
+
 	ascii_s = s.encode('ascii', errors='ignore')
 	s_alpha_len = len([c for c in ascii_s if isalnum(c)])
 	return s_len, s_alpha_len

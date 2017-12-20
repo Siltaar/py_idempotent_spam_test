@@ -23,6 +23,8 @@ Python 3.4.2
 20171124 3 : 20 tests ; 1.20s ; 0.600ms/t
 20171201 2 : 21 tests ; 1,15s ; 0.547ms/t (accept pgp-encrypted stream as valid)
 20171201 3 : 21 tests ; 1,33s ; 0.630ms/t
+20171220 2 : 22 tests ; 1,48s ; 0.672ms/t (check body wild len against alnum)
+20171220 3 : 22 tests ; 1,68s ; 0.763ms/t
 """
 
 startTime = datetime.now()
