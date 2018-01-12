@@ -25,6 +25,17 @@ Python 3.4.2
 20171201 3 : 21 tests ; 1,33s ; 0.630ms/t
 20171220 2 : 22 tests ; 1,48s ; 0.672ms/t (check body wild len against alnum)
 20171220 3 : 22 tests ; 1,68s ; 0.763ms/t
+
+
+Linux 4.9.0-5-amd64 #1 SMP Debian 4.9.65-3+deb9u2 (2018-01-04) x86_64 GNU/Linux
+Debian 9.3
+Python 2.7.13
+Python 3.5.3
+
+20170112 2 : 22 tests ; 1,53s ; 0,695ms/t (check isalpha instead of isalnum)
+20170112 3 : 22 tests ; 1,74s ; 0,790ms/t
+
+
 """
 
 startTime = datetime.now()
