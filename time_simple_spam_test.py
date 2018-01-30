@@ -32,8 +32,10 @@ Debian 9.3
 Python 2.7.13
 Python 3.5.3
 
-20170112 2 : 22 tests ; 1,53s ; 0,695ms/t (check isalpha instead of isalnum)
-20170112 3 : 22 tests ; 1,74s ; 0,790ms/t
+20180112 2 : 22 tests ; 1,53s ; 0,695ms/t (check isalpha instead of isalnum)
+20180112 3 : 22 tests ; 1,74s ; 0,790ms/t
+20180130 2 : 23 tests ; 1,64s ; 0,713ms/t (check no txt and bad HTML)
+20180130 3 : 23 tests ; 1,87s ; 0,813ms/t
 
 
 """
