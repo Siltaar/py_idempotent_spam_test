@@ -26,22 +26,35 @@ def spam_test(stdin_eml, debug=0):
 
 	body_len, body_alpha_len = (0, 0)
 	ctype=''
-	text_parts = []
-	html_parts = []
-
 
 	for part in eml.walk() :
 		ctype = part.get_content_type()
 
-		# if 'text' in ctype or 'pgp-encrypted' in ctype:
+		if 'text' in ctype or 'pgp-encrypted' in ctype:
 			# debug and print('ctype %s ' % part.get_content_type(), end='', file=stderr)
-			# body_len, body_alpha_len = email_alpha_len(part,
-				# lambda b : b.get_payload(decode=True)[:256])
-			# break
+			body_len, body_alpha_len = email_alpha_len(part,
+				lambda b : b.get_payload(decode=True)[:256])
+			break
+
+	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
+		score += 1
+		debug and print("body %i/%i " % (body_alpha_len, body_len), end='', file=stderr)
+
+	# if score > 0:
+	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0],header_txt)
+
+	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
+		score += 1
+		debug and print("from %i/%i " % (from_alpha_len, from_len), end='', file=stderr)
+
+	text_parts = []
+	html_parts = []
+
+	for part in eml.walk() :
+		ctype = part.get_content_type()
+
 		if 'html' in ctype:
 			html_parts.append(part)
-		if 'plain' in ctype or 'pgp-encrypted' in ctype:
-			text_parts.append(part)
 
 	for part in html_parts:
 		html_src = part.get_payload(decode=True)[:128]
@@ -50,29 +63,11 @@ def spam_test(stdin_eml, debug=0):
 			debug and print("\033[1;33mbad HTML\033[0m ", end='', file=stderr)
 			score += 1
 
-	if not text_parts:  # if there is no text part, it may be a spam
-		debug and print("\033[1;33mno txt\033[0m ", end='', file=stderr)
-		score += 1
-	else:
-		body_len, body_alpha_len = email_alpha_len(part,
-			lambda b : b.get_payload(decode=True)[:256])
-
-	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
-		score += 1
-		debug and print("body %i/%i " % (body_alpha_len, body_len), end='', file=stderr)
-
-	if score > 0:
-		from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0],header_txt)
-
-		if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-			score += 1
-			debug and print("from %i/%i " % (from_alpha_len, from_len), end='', file=stderr)
-
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
-		debug and print("dests %i " % (recipient_count), end='', file=stderr)
+		debug and print("recs %i " % (recipient_count), end='', file=stderr)
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
@@ -80,17 +75,20 @@ def spam_test(stdin_eml, debug=0):
 		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
 
 	if eml_dt < recv_dt - timedelta(hours=6) or eml_dt > recv_dt + timedelta(hours=2):
-		debug and print("near %s recv %s " % (eml_dt, recv_dt), end='', file=stderr)
+		debug and print("date %s recv %s " % (eml_dt, recv_dt), end='', file=stderr)
 		score += 1
 
 		if eml_dt < recv_dt - timedelta(days=15) or \
 			eml_dt > recv_dt + timedelta(days=2):
-			debug and print("far date ", end='', file=stderr)
+			debug and print("\033[1;31mfar\033[0m ", end='', file=stderr)
 			score += 1
+		else:
+			debug and print("\033[1;33mnear\033[0m ", end='', file=stderr)
 
 	if (eml.get('X-Spam-Status', '').lower() == 'yes' or
 		eml.get('X-Spam-Flag', '').lower() == 'yes' or
 		len(eml.get('X-Spam-Level', '')) > 3):
+		debug and print("X-Spam ", end='', file=stderr)
 		score += 1
 
 	debug and print('\033[1;31m%s\033[0m\n' % score, end='', file=stderr)
@@ -154,15 +152,15 @@ def test_spam_test(stdin_eml):
 	>>> spam_test(open('test_email/20171010.eml').read(), DEBUG)  # chinese content
 	2
 	>>> spam_test(open('test_email/20171012.eml').read(), DEBUG)  # no text nor HTML part
-	3
+	2
 	>>> spam_test(open('test_email/20171107.eml').read(), DEBUG)  # longer chinese content
 	2
 	>>> spam_test(open('test_email/20171130.eml').read(), DEBUG)  # PGP ciphered email
 	0
 	>>> spam_test(open('test_email/20171219.eml').read(), DEBUG)  # chinese base64 body
-	1
+	2
 	>>> spam_test(open('test_email/20180130.eml').read(), DEBUG)  # no text, bad HTML
-	3
+	1
 	"""
 	return spam_test(stdin_eml)
 

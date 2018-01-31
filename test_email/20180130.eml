@@ -1,14 +1,14 @@
 Return-Path: <Polina60942@amc-golob.com>
-Delivered-To: aaa@d12s.work
+Delivered-To: aaa@ddd.work
 Received: by tabr (fdm 1.9, account "ccc")
  with imap (version=TLSv1/SSLv3 ECDHE-RSA-AES128-GCM-SHA256 128 bits)
  Tue, 30 Jan 2018 04:35:01 +0100
 Received: from spool.mail.gandi.net (mspool4-d.mgt.gandi.net [10.0.21.135])
  by nmboxes66.sd2.0x35.net (Postfix) with ESMTP id 5A44B288C1
- for <aaa@d12s.work>; Tue, 30 Jan 2018 04:31:56 +0100 (CET)
+ for <aaa@ddd.work>; Tue, 30 Jan 2018 04:31:56 +0100 (CET)
 Received: from bbb.com (unknown [IPv6:2001:4b98:dc0:43:216:3eff:febf:d9a6])
  by spool.mail.gandi.net (Postfix) with ESMTPS id 4C621142040
- for <aaa@d12s.work>; Tue, 30 Jan 2018 04:31:54 +0100 (CET)
+ for <aaa@ddd.work>; Tue, 30 Jan 2018 04:31:54 +0100 (CET)
 Received: from [116.111.120.173] by bbb.com with esmtp (Exim 4.89)
  (envelope-from <Polina60942@amc-golob.com>) id 1egMd0-0000bZ-OZ
  for contact@bbb.com; Tue, 30 Jan 2018 04:30:35 +0100
