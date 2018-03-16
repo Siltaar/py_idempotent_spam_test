@@ -27,8 +27,6 @@ def spam_test(stdin_eml, debug=0):
 	ctype=''
 	text_parts = []
 	html_parts = []
-	body=''
-	body_len, body_alpha_len = (0, 0)
 
 	for part in eml.walk() :
 		ctype = part.get_content_type()
@@ -40,26 +38,8 @@ def spam_test(stdin_eml, debug=0):
 		if 'html' in ctype:
 			html_parts.append(part)
 
-	if len(text_parts) == 0:
-		debug and print("\033[1;33mno text\033[0m ", end='', file=stderr)
-		score += 1
-	else:
-		for part in text_parts:
-			text = part.get_payload(decode=True)
-
-			if len(body) < len(text):
-				body = text
-
-			if len(text) < 150:
-				debug and print(body, end='', file=stderr)
-				debug and print("\033[1;33msmall\033[0m ", end='', file=stderr)
-				score += score == 0
-
 	for part in html_parts:
 		html_src = part.get_payload(decode=True)
-
-		if not body:
-			body = html_src
 
 		if len(html_src) > 10000:
 			debug and print("\033[1;33mbig HTML\033[0m ", end='', file=stderr)
@@ -69,6 +49,20 @@ def spam_test(stdin_eml, debug=0):
 			debug and print("\033[1;33mbad HTML\033[0m ", end='', file=stderr)
 			score += 1
 
+	body=''
+
+	for part in text_parts:
+		text = part.get_payload(decode=True)
+
+		if len(body) < len(text):
+			body = text
+
+		if len(text) < 150:
+			debug and print(body, end='', file=stderr)
+			debug and print("\033[1;33msmall\033[0m ", end='', file=stderr)
+			score += score == 0
+
+	# body_len, body_alpha_len = (0, 0)
 	body_len, body_alpha_len = email_alpha_len(body, lambda b: b[:256])
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
@@ -171,7 +165,7 @@ def test_spam_test(stdin_eml):
 	>>> spam_test(open('test_email/20171010.eml').read(), DEBUG)  # chinese content
 	2
 	>>> spam_test(open('test_email/20171012.eml').read(), DEBUG)  # no text nor HTML part
-	3
+	2
 	>>> spam_test(open('test_email/20171107.eml').read(), DEBUG)  # longer chinese content
 	2
 	>>> spam_test(open('test_email/20171130.eml').read(), DEBUG)  # PGP ciphered email

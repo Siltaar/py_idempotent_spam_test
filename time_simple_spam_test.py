@@ -8,6 +8,7 @@ from datetime import datetime
 from simple_spam_test import test_spam_test, spam_test
 
 """
+Intel(R) Xeon(R) CPU           L5420  @ 2.50GHz
 Debian 8.9
 Python 2.7.9
 Python 3.4.2
@@ -38,6 +39,8 @@ Python 3.5.3
 20180130 3 : 23 tests ; 1,87s ; 0,813ms/t
 20180314 2 : 23 tests ; 1,70s ; 0,739ms/t (check big HTML, no text, small text…)
 20180314 3 : 23 tests ; 1,92s ; 0,834ms/t
+20180315 2 : 23 tests ; 1,65s ; 0,717ms/t (no more 'no text' as body len already checked)
+20180315 3 : 23 tests ; 1,87s ; 0,813ms/t
 
 """
 
