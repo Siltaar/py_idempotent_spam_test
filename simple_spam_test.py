@@ -24,11 +24,11 @@ def spam_test(stdin_eml, debug=0):
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug and print("subj %i/%i " % (subj_alpha_len, subj_len), end='', file=stderr)
 
-	ctype=''
+	ctype = ''
 	text_parts = []
 	html_parts = []
 
-	for part in eml.walk() :
+	for part in eml.walk():
 		ctype = part.get_content_type()
 		# debug and print('ctype %s ' % part.get_content_type(), end='', file=stderr)
 
@@ -49,7 +49,7 @@ def spam_test(stdin_eml, debug=0):
 			debug and print("\033[1;33mbad HTML\033[0m ", end='', file=stderr)
 			score += 1
 
-	body=''
+	body = ''
 
 	for part in text_parts:
 		text = part.get_payload(decode=True)
@@ -69,7 +69,7 @@ def spam_test(stdin_eml, debug=0):
 		score += 1
 		debug and print("body %i/%i " % (body_alpha_len, body_len), end='', file=stderr)
 
-	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0],header_txt)
+	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_txt)
 
 	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 		score += score == 0
@@ -78,7 +78,7 @@ def spam_test(stdin_eml, debug=0):
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
-		score += score == 0 # If there is no or more than 9 recipients, it may be a spam
+		score += score == 0  # If there is no or more than 9 recipients, it may be a spam
 		debug and print("recs %i " % (recipient_count), end='', file=stderr)
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
@@ -107,7 +107,9 @@ def spam_test(stdin_eml, debug=0):
 	print(str(score))
 
 
-DEBUG=1
+DEBUG = 1
+
+
 def test_spam_test(stdin_eml):
 	"""
 	>>> spam_test('From:Bb<b@b.tk>\\nTo:a@a.tk\\nSubject:eml ok\\nContent-Type: text/plain;\\n'

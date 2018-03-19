@@ -1,36 +1,64 @@
 Test the spam probability of an email based on idempotent rules (no learning).
 
-`spam_test.py` expect email input via stdin and outputs the spam score on the standard output. +
-Created to be used with https://github.com/nicm/fdm[FDM] in a `pipe` action.
+`spam_test.py` expect email input via stdin and outputs the spam score on the
+standard output. + Created to be used with https://github.com/nicm/fdm[FDM] in
+a `pipe` action.
 
 ## Rules and scores
-There are currently 4 sets of rules, each one is able to increment the spam score by 1.
+There are currently 5 sets of rules, each one is able to increment the spam
+score by or to 1.
 
 ### Subject, From and body alphabetic letters
-If the subject is missing, empty or contains less than half ASCII alphabetic letters, the spam score is incremented by 1 and the From header name part is tested also, incrementing the score again by 1 in the same conditions.
+If the subject is missing, empty or contains less than half ASCII alphabetic
+letters, the spam score is incremented by 1 and the From header name part is
+tested also, incrementing the score to 1 if it was 0.
 
-Body part is tested anyway, thus no textual body (or chinese only one) will increment the score by 1.
+Body part is tested anyway. The tested body is the biggest text part. No
+textual body (or chinese only one) will increment the score by 1.
+
+### Text and HTML parts
+If the the biggest text part is smaller than 150 characters, the score is
+incremented to 1 if it was 0.
+
+If an HTML part is bigger than 10k characters, the score is incremented to 1
+if it was 0. If HTML appears to be unvalid, the score is incremented by 1.
 
 ### Recipient count
-If there is no recipients or more than 9, the spam score is incremented by 1.
+If there is no recipients or more than 9, the spam score is incremented to 1
+if it was 0.
 
 ### Date and time
-If the date and time of the Date header of the email is in the future compared to the last Received header, more than 2h (or more than 2 days) the spam score is incremented by 1 (or 2).
+If the date and time of the Date header of the email is in the future compared
+to the last Received header, more than 2h (or more than 2 days) the spam score
+is incremented by 1 (or 2).
 
-If it's more than 6h in the past (or more than 6 days) the spam score is incremented by 1 (or 2).
+If it's more than 6h in the past (or more than 6 days) the spam score is
+incremented by 1 (or 2).
 
 ### X-Spam-Status
 If the message has already been flagged as spam, we increment the score by 1.
 
 ## Performance note
-In a quest for performance, I compared Python 3 and Python 2 versions of the code. Python 2.7 appeared to be 20% to 30% quicker than Python 3.4 in Debian stable 8.7 for a sample of 200 randomly contact@ emails of a small french software company. So I kept using Python 2 and made a cross-compatible version.
+In a quest for performance, I compared Python 3 and Python 2 versions of the
+code. Python 2.7 appeared to be 20% to 30% quicker than Python 3.4 in Debian
+stable 8.7 for a sample of 200 randomly contact@ emails of a small french
+software company.
 
 Cython compilation was 2 times slower in this edge case.
 
 `-O` and `-OO` python's options are slowing down the computation by 3.
 
+Python 2.7.13 still appear to be 10% to 15% quicker than Python 3.5.3 in Debian
+stable 9.3 for 100 runs of 24 tests (at 2018-03-15, see `time_simple_spam_test.py`
+comments for more details).
+
+So I kept using Python 2 and made a cross-compatible version.
+
 ## Efficiency note
-In the first 6 months I used `simple_spam_test` (between 2017-04 and 2017-10) on my inboxes, it saved me from reading 949 spams (with no false positive so far), 473 placed in purgatory zone and roughly 540 passed through. Thus it's a 72% of efficiency, with less than one saved-from-purgatory email a day.
+In the first 6 months I used `simple_spam_test` (between 2017-04 and 2017-10)
+on my inboxes, it saved me from reading 949 spams (with no false positive so
+far), 473 placed in purgatory zone and roughly 540 passed through. Thus it's a
+72% of efficiency, with less than one saved-from-purgatory email a day.
 
 ## Example
 ### `fdm.conf` snippet :
