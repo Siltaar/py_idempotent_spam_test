@@ -1,11 +1,13 @@
 #!/usr/bin/env python2
 # coding: utf-8
-# author : Simon Descarpentries, 2017-10
+# author : Simon Descarpentries
+# date: 2017 - 2018
 # licence: GPLv3
 
 from doctest import run_docstring_examples
 from datetime import datetime
-from simple_spam_test import test_spam_test, spam_test
+from simple_spam_test import spam_test
+from test_simple_spam_test import test_spam_test
 
 """
 Intel(R) Xeon(R) CPU           L5420  @ 2.50GHz
@@ -41,6 +43,8 @@ Python 3.5.3
 20180314 3 : 23 tests ; 1,92s ; 0,834ms/t
 20180315 2 : 23 tests ; 1,65s ; 0,717ms/t (no more 'no text' as body len already checked)
 20180315 3 : 23 tests ; 1,87s ; 0,813ms/t
+20180321 2 : 24 tests ; 1,77s ; 0,737ms/t (separate tests in new file ; slower real testcases…)
+20180321 3 : 24 tests ; 2.01s ; 0,837ms/t
 
 """
 

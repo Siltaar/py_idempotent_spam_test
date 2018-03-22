@@ -49,7 +49,7 @@ Cython compilation was 2 times slower in this edge case.
 `-O` and `-OO` python's options are slowing down the computation by 3.
 
 Python 2.7.13 still appear to be 10% to 15% quicker than Python 3.5.3 in Debian
-stable 9.3 for 100 runs of 24 tests (at 2018-03-15, see `time_simple_spam_test.py`
+stable 9.3 for 100 runs of 23 tests (at 2018-03-15, see `time_simple_spam_test.py`
 comments for more details).
 
 So I kept using Python 2 and made a cross-compatible version.
@@ -71,6 +71,6 @@ match string "%[spam_score]" to "[2-9]" action maildir "%h/.Maildir/.furspam"
 ## Testsuite
 To run the embeded testsuite :
 ```shell
-python2 -m doctest spam_test.py
-python3 -m doctest spam_test.py
+python2 test_simple_spam_test.py
+python3 test_simple_spam_test.py
 ```
