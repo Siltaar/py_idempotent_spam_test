@@ -7,7 +7,7 @@
 from doctest import run_docstring_examples
 from datetime import datetime
 from simple_spam_test import spam_test
-from test_simple_spam_test import test_spam_test
+from test_simple_spam_test import test_spam_test_theoritical_cases, test_spam_test_real_cases
 
 """
 Intel(R) Xeon(R) CPU           L5420  @ 2.50GHz
@@ -45,6 +45,14 @@ Python 3.5.3
 20180315 3 : 23 tests ; 1,87s ; 0,813ms/t
 20180321 2 : 24 tests ; 1,77s ; 0,737ms/t (separate tests in new file ; slower real testcases…)
 20180321 3 : 24 tests ; 2.01s ; 0,837ms/t
+20180322 2 : 25 tests ; 1,92s ; 0,768ms/t (body alpha len > 128 ; HTML < 30kc)
+20180322 3 : 25 tests ; 2.20s ; 0,880ms/t  - 13%
+20180324 2 : 17 tests ; 0.740 ; 0.435ms/t (theoritical cases)
+20180324 3 : 17 tests ; 0.797 ; 0.468ms/t  - 8%
+20180324 2 :  8 tests ; 1.230 ; 1.537ms/t (real cases)
+20180324 3 :  8 tests ; 1.440 ; 1.800ms/t  - 15%
+20180326 2 : 26 tests ; 2.05s ; 0,788ms/t (spam if body len < 25 and no HTML part)
+20180326 3 : 26 tests ; 2.32s ; 0,892ms/t  - 12%
 
 """
 
@@ -52,6 +60,7 @@ startTime = datetime.now()
 DEBUG = 0
 
 for i in range(0, 100):
-	run_docstring_examples(test_spam_test, globals())
+	run_docstring_examples(test_spam_test_theoritical_cases, globals())
+	run_docstring_examples(test_spam_test_real_cases, globals())
 
 print(datetime.now() - startTime)
