@@ -40,7 +40,7 @@ def spam_test(stdin_eml, debug=0):
 			debug and print("\033[1;33mbad HTML\033[0m ", end='', file=stderr)
 			score += 1
 
-		if len(html_src) > 10000:
+		if len(html_src) > 30000:
 			debug and print("\033[1;33mbig HTML\033[0m ", end='', file=stderr)
 			score += score == 0
 
@@ -52,12 +52,10 @@ def spam_test(stdin_eml, debug=0):
 		if len(body) < len(text):
 			body = text
 
-		if len(text) < 133:
-			debug and print(body, end='', file=stderr)
-			debug and print("\033[1;33msmall\033[0m ", end='', file=stderr)
-			score += score == 0
-
 	body_len, body_alpha_len = email_alpha_len(body, lambda b: b[:256])
+
+	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
+		score += 1
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
@@ -78,7 +76,7 @@ def spam_test(stdin_eml, debug=0):
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
-		score += score == 0  # If there is no or more than 9 recipients, it may be a spam
+		score += 1  # If there is no or more than 9 recipients, it may be a spam
 		debug and print("recs %i " % (recipient_count), end='', file=stderr)
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(

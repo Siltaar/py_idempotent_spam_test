@@ -1,0 +1,653 @@
+Return-Path: cdiscount-rt3@servicenotification.net
+Received: by aaa (fdm 1.9, account "bbb")
+ with imap (version=TLSv1/SSLv3 ECDHE-RSA-AES128-GCM-SHA256 128 bits)
+ Wed, 21 Mar 2018 11:56:02 +0100
+Received: from lpn-prd-vrin014.laposte (LHLO lpn-prd-vrin014) (10.128.63.15)
+ by lpn-prd-mstr044 with LMTP; Wed, 21 Mar 2018 11:49:13 +0100 (CET)
+Received: from lpn-prd-vrin014 (localhost [127.0.0.1])
+ by lpn-prd-vrin014 (Postfix) with ESMTP id 786B42C4276
+ for <ccc@laposte.net>; Wed, 21 Mar 2018 11:49:13 +0100 (CET)
+Received: from r129.p51.neolane.net (r129.p51.neolane.net [185.15.51.129])
+ by lpn-prd-vrin014 (Postfix) with ESMTP id 46AC22C3A45
+ for <ccc@laposte.net>; Wed, 21 Mar 2018 11:49:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=neolane-rt;
+ d=servicenotification.net;
+ h=domainkey-signature:from:date:subject:to:reply-to:mime-version:x-mailer:message-id:content-type:content-transfer-encoding;
+ bh=Xu4cXp8RRITA8uNPhGyPSI9+ajjxsNG0UYy0UIvzKrw=;
+ b=lSMmjG2ossK8vNpe6MIQQmIwOIvnYGZex/V6BbflcXhVv0y32DbyRmu+IGhULXPqUHRQip6gfpDxRHrkaKngTyskNAj2oYeE66B9x3e5uRaj6SBZobO2uIG7nUTSSP/o2KF8axYA5X8HEqpAzYWoBQ5GVuy3IV/iFxzK7uH78ZE=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=neolane-rt;
+ d=servicenotification.net;
+ h=From:Date:Subject:To:Reply-To:MIME-Version:X-mailer:Message-ID:Content-Type:Content-Transfer-Encoding;
+ b=qIRMvvfrLnowsibc3aiE3ipC9Xr3KBcsAw3g229SFk0pE6BZqtyuiT4VpT8jWP+gZrHhTjVcs4CsAbg8DXn521ipE2o8tF4/Lk+cj/q8qcUsm0Ch0gcVvM4Suw/Te0jeVHj2Npz0mbAzXOcxHfYcGwCdkAYfpc3Z12C6buBUl8w=
+From: "Service Client Cdiscount"
+ <ne_pas_repondre.cdiscount@servicenotification.net>
+Date: Wed, 21 Mar 2018 11:49:07 +0100
+Subject: Confirmation - Votre commande TONER COMPATIBLE HP
+To: <ccc@laposte.net>
+Reply-To: "ne_pas_repondre.cdiscount@servicenotification.net"
+ <Ne_pas_repondre@notification-cdiscount.cdiscount.com>
+MIME-Version: 1.0
+X-mailer: nlserver, Build 6.1.1.8653
+Message-ID: <NM6067B1A3F095AECD2cdiscount_rt3@servicenotification.net>
+Content-Type: text/html;
+	charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
+Lpn-Authentication-Results: helo=r129.p51.neolane.net; spf=pass
+ smtp.mailfrom=cdiscount-rt3@servicenotification.net;
+ dkim=pass header.d=servicenotification.net; dmarc=none;
+X-VR-FullState: 0
+X-VR-Score: 20
+X-VR-Cause-1: gggruggvucftvghtrhhoucdtuddrgedtgedrudejgddvtdcutefuodetggdotefrodftvfcurfhrohhf
+X-VR-Cause-2: ihhlvgemucfntefrqffuvffgpdggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemucehtddt
+X-VR-Cause-3: necuogetvdekgedqtdejucdlvddtmdenucfjughrpefhfffuvfhrggfokfgtgfeshhhqredtredtheen
+X-VR-Cause-4: ucfhrhhomhepfdfuvghrvhhitggvucevlhhivghnthcuveguihhstghouhhnthdfuceonhgvpghprghs
+X-VR-Cause-5: pghrvghpohhnughrvgdrtgguihhstghouhhnthesshgvrhhvihgtvghnohhtihhfihgtrghtihhonhdr
+X-VR-Cause-6: nhgvtheqnecuffhomhgrihhnpegtughishgtohhunhhtrdgtohhmpdiflhhsvghrvhhitggvshdrfhhr
+X-VR-Cause-7: pdhpfihsphgrtggvrdgtohhmnecukfhppedukeehrdduhedrhedurdduvdelnecurfgrrhgrmhephhgv
+X-VR-Cause-8: lhhopehruddvledrphehuddrnhgvohhlrghnvgdrnhgvthdpihhnvghtpedukeehrdduhedrhedurddu
+X-VR-Cause-9: vdelpdhmrghilhhfrhhomheptgguihhstghouhhnthdqrhhtfeesshgvrhhvihgtvghnohhtihhfihgt
+X-VR-Cause-10: rghtihhonhdrnhgvthdprhgtphhtthhopehsihhlthgrrghrsehlrghpohhsthgvrdhnvghtnecuvehl
+X-VR-Cause-11: uhhsthgvrhfuihiivgeptd
+X-VR-AvState: No
+X-VR-State: 0
+Content-Length: 24792
+
+<!doctype html>
+<html>
+   <head>
+      <meta charset=3D"UTF-8">
+      <title>Confirmation de commande</title>
+
+
+   </head>
+   <body style=3D"-webkit-text-size-adjust: 100%;width:100% !important; -ms=
+-text-size-adjust:100%; margin:0; padding:0;">
+      <!--TEMPLATE ENTIER-->
+
+      <table width=3D"100%" align=3D"center" border=3D"0" cellspacing=3D"0"=
+ cellpadding=3D"0" style=3D"background-color:#f4f2df;padding:20px;font-fami=
+ly:Arial;">
+
+      <tr>
+         <td>
+            <!--HEADER CONTENU-->
+
+            <table width=3D"680" cellspacing=3D"0" cellpadding=3D"0" align=
+=3D"center">
+
+      <tr>
+         <td>
+            <!--HEADER-->
+
+<table height=3D"60" bgcolor=3D"white" border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0" style=3D"font-family:arial;">
+   <tr>
+      <td width=3D"680" height=3D"140">
+         <a href=3D"http://www.cdiscount.com" target=3D"_blank" style=3D"ba=
+ckground-color:#f4f2df;"><img alt=3D"Cdiscount" border=3D"0" src=3D"https:/=
+/i6.cdscdn.com/imagesok/templatemail/20180122-163441_603327.png"  style=3D"=
+background-color:#f4f2df;"></a>
+      </td>
+   </tr>
+</table>
+
+
+            <table height=3D"70" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" style=3D"border-bottom:1px solid #f4f2df;background-color:#f4f2df;">
+               <tr>
+                  <td> <img style=3D"display:block;" alt=3D"Confirmation de=
+ commande" border=3D"0" src=3D"https://i6.cdscdn.com/imagesok/templatemail/=
+20180122-165009_603354.png=3Frnd=3D20F6F2E1" ></td>
+               </tr>
+            </table>
+
+
+            <!-- Lien Mon compte-->
+
+
+            <!-- TEXTE CONFIRMATION DE COMMANDE + PUB 3WR-->
+            <table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddin=
+g=3D"0" bgcolor=3D"white" style=3D"font-family:arial;">
+               <tr>
+                  <td valign=3D"top" style=3D"font-size:12px;color:#323232;=
+padding-left:10px; padding-right:10px;">
+
+         <td valign=3D"top" style=3D"font-size:12px;color:#323232;">
+                     <p style=3D"text-align:right;padding-right:10px;">
+                        <br />
+                     </p>
+
+
+                     Bonjour Simon,<br /><br />
+
+                     Nous sommes ravis de votre visite chez nous ! <br/>
+
+                     Nous avons le plaisir de vous annoncer que le traiteme=
+nt de votre commande est en cours. <br/><br/>
+
+
+                     <!--Texte specifique modreg PMAG-->
+
+
+                     Bien s=FBr, nous vous informerons
+
+                     de son exp=E9dition par email. <br/><br/>
+
+
+
+
+                     Astuce s=E9r=E9nit=E9 : avez-vous pens=E9 =E0 assurer =
+votre produit =3F  <br />
+                     Il est encore temps de profiter de nos garanties sur m=
+esure.  <br />
+                     Un conseiller est =E0 votre disposition au 03 59 09 55=
+ 13 (num=E9ro non surtax=E9) pour r=E9pondre =E0 toutes vos questions. <br =
+/> <br />
+
+
+                     Un grand merci pour la confiance que vous nous accorde=
+z.<br /><br />
+                     =C0 tr=E8s bient=F4t !<br />
+                     L=92=E9quipe Cdiscount.<br /><br />
+
+                        </td>
+               </tr>
+
+            </table>
+
+            <table height=3D"80"  border=3D"0" cellspacing=3D"0" cellpaddin=
+g=3D"0" style=3D"background:white;font-size:12px;font-family:Arial;color:#3=
+23232;">
+               <tr>
+                  <td width=3D"30%" style=3D"font-size:12px;font-family:Ari=
+al;color:#323232;padding-left:20px;">Pour garder un =9Cil sur l=92avanc=E9e=
+<br/> de votre commande, c=92est ici :</td>
+                  <td width=3D"309">
+                     <a href=3D"http://rt3-t.notification-cdiscount.cdiscou=
+nt.com/r/=3Fid=3Dh67b1a3f,95aecd2,95aecd4" target=3D"_blank"><img style=3D"=
+display:block;padding-right:167px;" alt=3D"Mon Suivi de commande" border=3D=
+"0" src=3D"https://i6.cdscdn.com/imagesok/templatemail/20180208-103837_6097=
+04.png"></a>
+                  </td>
+               </tr>
+               <tr>
+                  <td width=3D"680" height=3D"10" align=3D"center"><a href=
+=3D"#" target=3D"_blank" style=3D"color:#096ec8;font-size:12px;text-decorat=
+ion:none;"></a></td>
+               </tr>
+            </table>
+
+
+            <!-- PUB BANDEAU -->
+
+            <table width=3D"678" align=3D"center" style=3D"background-color=
+:#edebf6;">
+
+               <tr>
+                  <td>
+                     <img border=3D"0" src=3D"http://ig.powerspace.com/cdi/=
+CDI_Introductiongrey_300x35.jpg" /><br />
+                     <a href=3Dhttp://a.pwspace.com/ndc/M9N1W70E=3Fps_ee=3D=
+2e38f40df1b64a0aa3fbeee762a94532&ps_g=3DH&ps_a=3D33&z=3D1 style=3D"align:le=
+ft;"><img border=3D"0" src=3Dhttp://a.pwspace.com/ndi/M9N1W70E=3Fps_ee=3D2e=
+38f40df1b64a0aa3fbeee762a94532&ps_g=3DH&ps_a=3D33&z=3D1></a>
+                     <a href=3Dhttp://a.pwspace.com/ndc/M9N1W70E=3Fps_ee=3D=
+2e38f40df1b64a0aa3fbeee762a94532&ps_g=3DH&ps_a=3D33&z=3D2 style=3D"align:le=
+ft;"><img border=3D"0" src=3Dhttp://a.pwspace.com/ndi/M9N1W70E=3Fps_ee=3D2e=
+38f40df1b64a0aa3fbeee762a94532&ps_g=3DH&ps_a=3D33&z=3D2></a>
+                  </td>
+               </tr>
+               <tr align=3D"right">
+                  <td colspan=3D"2">
+                     <img border=3D"0" src=3D"http://ig.powerspace.com/pws-=
+bw.gif"/>
+                  </td>
+               </tr>
+
+            </table>
+
+            <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=
+=3D"center" >
+               <tr>
+                  <td width=3D"680" height=3D"1" align=3D"center"><a href=
+=3D"#" target=3D"_blank" style=3D"color:#096ec8;font-size:12px;text-decorat=
+ion:none;"></a></td>
+               </tr>
+            </table>
+            <!-- TABLEAUX DU DETAIL DES COMMANDES-->
+            <!-- commande CDS-->
+
+               <!-- COMMANDE MP-->
+
+               <table width=3D"678" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0" style=3D"font-family:arial;background-color:#F6F6F3 ;">
+                  <tr>
+                     <td height=3D"10" bgcolor=3D"white"></td>
+                  </tr>
+                  <tr>
+                     <td height=3D"30" bgcolor=3D"white" style=3D"font-size=
+:14px;font-weight:bold;color:#323232;padding-left:10px;border-bottom:1px so=
+lid #d7d9e4;">
+
+                        COMMANDE N=B01803211146WMGQT      VENDUE PAR
+
+
+
+                        Votre PAPETERIE <span style=3D"color:#22398e">VENDE=
+UR PRO</span>
+
+
+
+                     </td>
+                  </tr>
+               </table>
+               <table width=3D"678" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0" style=3D"font-size:12px;color:#323232;font-family:arial;backgroun=
+d-color:#F6F6F3 ">
+
+                  <tr style=3D"font-weight:bold;text-align:center;">
+                     <td width=3D"240" style=3D"padding:5px;">Produit(s)</t=
+d>
+
+                     <td width=3D"190" style=3D"padding:5px;">Livraison</td=
+>
+                     <td width=3D"140" style=3D"padding:5px;">Date de livra=
+ison estim=E9e</td>
+                     <td width=3D"38" style=3D"padding:5px;">Qt=E9</td>
+                     <td width=3D"70" style=3D"padding:5px;">Prix</td>
+
+                  </tr>
+
+
+                  <tr bgcolor=3D"white">
+
+                     <td width=3D"240" style=3D"padding:5px;border-bottom:1=
+px solid #F6F6F3 ;">
+                        Toner compatible HP Q6003A magenta <!-- - 1 -->
+
+                     </td>
+
+
+                     <td width=3D"190"  style=3D"padding:5px;text-align:cen=
+ter;border-bottom:1px solid #F6F6F3 " rowspan=3D1>
+
+                        <b> Suivi</b><br />
+
+                        Mr Simon XXX<br />
+
+                        YYYY <br />
+
+
+                        88888
+                        ZZZ <br />
+
+                     </td>
+                     <td width=3D"140" style=3D"padding:5px;text-align:cent=
+er;border-bottom:1px solid #F6F6F3 " rowspan=3D1>
+
+                        Entre le 27/03/2018<br /> et le 29/03/2018
+
+                     </td>
+
+                     <td width=3D"38" style=3D"padding:5px;border-bottom:1p=
+x solid #F6F6F3 ;" align=3D"center">1</td>
+
+                     <td width=3D"70" style=3D"padding:5px;font-weight:bold=
+;border-bottom:1px solid #F6F6F3 ;" align=3D"right">
+
+
+                        19.00 =80
+                     </td>
+                  </tr>
+
+               </table>
+               <table width=3D"678" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0" style=3D"font-family:arial;background-color:#F6F6F3 ;">
+                  <tr>
+
+                     <td bgcolor=3D"white" width=3D"438" align=3D"center"><=
+/td>
+                     <td width=3D"240">
+                        <table width=3D"240" border=3D"0" cellspacing=3D"0"=
+ cellpadding=3D"0" style=3D"font-size:12px;color:#323232;font-weight:bold;f=
+ont-family:arial;background-color:#F6F6F3 ;">
+                           <tr align=3D"right">
+                              <td width=3D"160" height=3D"25" style=3D"padd=
+ing:5px;">Frais de livraison</td>
+                              <td width=3D"80" height=3D"25" style=3D"paddi=
+ng:5px;">0.00 =80</td>
+                           </tr>
+                           <tr align=3D"right">
+                              <td width=3D"160" height=3D"25" style=3D"padd=
+ing:5px;">Frais de traitement</td>
+                              <td width=3D"80" height=3D"25" style=3D"paddi=
+ng:5px;">0.00 =80</td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+               </table>
+
+               <table width=3D"678" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0" style=3D"font-family:arial;background-color:#F6F6F3 ;">
+                  <tr>
+                     <td bgcolor=3D"white" height=3D"10"></td>
+                  </tr>
+               </table>
+               <table width=3D"678" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0">
+                  <tr>
+
+                     <td bgcolor=3D"white" width=3D"438" align=3D"center" >
+
+                     </td>
+                     <td width=3D"240" style=3D"background-color:white;">
+                        <table width=3D"240" border=3D"0" cellspacing=3D"0"=
+ cellpadding=3D"0" style=3D"font-size:12px;color:#323232;font-weight:bold;f=
+ont-family:arial;background-color:#F6F6F3 ;">
+                           <tr align=3D"right">
+                              <td width=3D"160" height=3D"25" style=3D"padd=
+ing:5px;">Remise / Carte cadeau</td>
+                              <td width=3D"80" height=3D"25" style=3D"paddi=
+ng:5px;">0.00 =80</td>
+                           </tr>
+                           <!--Condition 3-->
+
+                           <tr align=3D"right">
+                              <td width=3D"160" height=3D"25" style=3D"padd=
+ing:5px;font-size:14px;">TOTAL NET TTC</td>
+                              <td width=3D"80" height=3D"25" style=3D"paddi=
+ng:5px;font-size:14px;">19.00 =80</td>
+                           </tr>
+
+                        </table>
+                     </td>
+                  </tr>
+               </table>
+               <table width=3D"678" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0" style=3D"font-family:arial;background-color:#F6F6F3 ;">
+                  <tr>
+                     <td bgcolor=3D"white" height=3D"10"></td>
+                  </tr>
+               </table>
+               <!--Condition 1 : Si le type de paiement vaut CBCUP et que l=
+a modalit=E9 n'est pas vide ou est renseign=E9e, on affiche le tableau -->
+
+               <!--Condition 2 : Si le type de paiement vaut BCACDI1X et qu=
+e la modalit=E9 n'est pas vide ou n'est pas renseign=E9e, on affiche le tab=
+leau -->
+
+
+
+                        <table width=3D"678"style=3D"border-bottom:1px soli=
+d #F6F6F3" cellspacing=3D"0" cellpadding=3D"0">
+                           <tr bgcolor=3D"white" align=3D"right">
+                              <td >
+                                 <br /><a href=3Dhttp://banners.wlservices.=
+fr/jump-312 ><img border=3D"0" src=3Dhttp://banners.wlservices.fr/ad-312 ><=
+/a>
+                              </td>
+                           </tr>
+                        </table>
+                        <table height=3D"40"  width=3D"680" border=3D"0" ce=
+llspacing=3D"0" cellpadding=3D"0" style=3D"background:white;padding-bottom:=
+0px;">
+                           <tr>
+                              <td width=3D"680" height=3D"10" align=3D"cent=
+er"><a href=3D"#" target=3D"_blank" style=3D"color:#096ec8;font-size:12px;t=
+ext-decoration:none;"></a></td>
+                           </tr>
+                           <tr>
+                              <td style=3D"padding-left:50px;font-family:he=
+lvetica;color:#1d3745; font-size:20px;">
+                                 LE SAVIEZ-VOUS =3F<br/>
+                              </td>
+                           </tr>
+                        </table>
+                        <table height=3D"80"  border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" style=3D"background:white;">
+                           <tr>
+                              <td width=3D"369" style=3D"vertical-align:mid=
+dle;font-size:12px;font-family:Arial;color:#323232;padding-left:55px;">Votr=
+e espace client vous permet de suivre votre commande, et aussi d=92effectue=
+r un retour en toute tranquillit=E9 si vous changez d=92avis.</td>
+                              <td width=3D"309" style=3D"vertical-align:mid=
+dle;">
+                                 <a href=3D"http://rt3-t.notification-cdisc=
+ount.cdiscount.com/r/=3Fid=3Dh67b1a3f,95aecd2,95aecd8" target=3D"_blank"><i=
+mg style=3D"display:block;padding-right:167px;" alt=3D"Mon Suivi de command=
+e" border=3D"0" src=3D"http://i6.cdscdn.com/imagesok/templatemail/20180205-=
+112933_608501.png"></a>
+                              </td>
+                           </tr>
+                           <tr>
+                              <td width=3D"680" height=3D"10" align=3D"cent=
+er"><a href=3D"#" target=3D"_blank" style=3D"color:#096ec8;font-size:12px;t=
+ext-decoration:none;"></a></td>
+                           </tr>
+                        </table>
+
+                        <!-- FIN TABLEAUX DU DETAIL DES COMMANDES-->
+                     </td>
+                  </tr>
+               </table>
+               <!--FIN HEADER CONTENU-->
+
+               <!-- FOOTER -->
+
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center" st=
+yle=3D"font-family:Arial;background-color:white;">
+   <tr>
+      <td width=3D"680" height=3D"10" align=3D"center"><a href=3D"#" target=
+=3D"_blank" style=3D"color:#096ec8;font-size:12px;text-decoration:none;"></=
+a></td>
+   </tr>
+</table>
+
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center" st=
+yle=3D"border:1px solid #d7d9e4;background-color:white;" bgcolor=3D"white">
+   <tr>
+      <!-- <td width=3D"680" align=3D"center">
+         <!-- Bandeau Soldes -->
+      <!--  <a href=3D"https://www.cdiscount.com/=3Frefer=3D2018_ldiff_ldif=
+f_cible_0110w02_MASSIF_LDIFF1_ACTIFS__100118&cm_mmc=3DFID-_-MASSIF-_-LDIFF1=
+-_-SEMI_GENERIQUE_email+ldiff_cible_180110w02+MASSIF_LDIFF1_ACTIFS__100118_=
+13813211230_sansConditions&cid=3Demail" target=3D"_blank"><img alt=3D"" wid=
+th=3D"680" border=3D"0" src=3D"https://i6.cdscdn.com/imagesok/templatemail/=
+20180108-162921_596534.png=3Frnd=3D3822C67D"></a>
+         <!--</td> -->
+   </tr>
+</table>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center" st=
+yle=3D"font-family:Arial;background-color:white;">
+   <tr>
+      <td width=3D"680" height=3D"10" align=3D"center"><a href=3D"#" target=
+=3D"_blank" style=3D"color:#096ec8;font-size:12px;text-decoration:none;"></=
+a></td>
+   </tr>
+</table>
+
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center">
+   <tr>
+      <td width=3D"680" height=3D"50" align=3D"center" style=3D"font-size:1=
+8px;color:#f54b32; font-family:helvetica; font-weight:bold; text-align:cent=
+er;background-color:white;">NOUS R=C9PONDONS =C0 VOS QUESTIONS =C0 TOUT MOM=
+ENT</font></td>
+   </tr>
+</table>
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center" st=
+yle=3D"background-color:white;">
+   <tr>
+      <td width=3D"680" height=3D"10" align=3D"center"><a href=3D"#" target=
+=3D"_blank" style=3D"font-size:12px;text-decoration:none;"></a></td>
+   </tr>
+</table>
+<table width=3D"680" cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=
+=3D"center" style=3D"background-color:white;">
+   <tr>
+      <th width=3D"40%" align=3D"left" style=3D"padding-right:20px;padding-=
+left:20px;font-size:14px;border-right:1px solid #728189;font-family:helveti=
+ca;color:#1e3745;">DEPUIS VOTRE ESPACE CLIENT </th>
+      <th width=3D"60%" align=3D"left" style=3D"padding-left:30px;font-size=
+:14px;font-family:helvetica;color:#1e3745;">AVEC NOS CONSEILLERS</th>
+   </tr>
+   <tr>
+      <td style=3D"font-size:12px;vertical-align: top;text-align: left;bord=
+er-right:1px solid #728189;color:#728189;font-family:arial;padding-right:20=
+px;padding-left:20px;"><br/>Pour g=E9rer, suivre vos commandes <br/> et tro=
+uver imm=E9diatement <br/> les r=E9ponses =E0 vos questions.
+         <br/><br/>
+         <a href=3D"http://rt3-t.notification-cdiscount.cdiscount.com/r/=3F=
+id=3Dh67b1a3f,95aecd2,95aecdb" target=3D"_blank"><img alt=3D"Mon Compte" sr=
+c=3D"https://i6.cdscdn.com/imagesok/templatemail/20180130-104411_606184.png=
+"></a>
+      </td>
+      <td style=3D"padding-left:30px;font-size:12px;vertical-align: top;tex=
+t-align: left;font-family:helvetica;color:#1e3745;">
+         <br/>PAR T=C9L=C9PHONE :
+         <table border=3D"0">
+            <tr>
+
+               <td><img src=3D"https://i6.cdscdn.com/imagesok/templatemail/=
+20180130-104527_606187.png" style=3D"padding-right:5px;"></td>
+
+               <td><img src=3D"https://i6.cdscdn.com/imagesok/templatemail/=
+20180130-104616_606190.png"></td>
+            </tr>
+            <tr>
+
+               <td style=3D"font-size:12px;font-family:arial;color:#728189;=
+">lundi =E0 vendredi : 9h - 19h<br/> samedi : 9h - 18h</td>
+
+               <td style=3D"font-size:12px;font-family:arial;color:#728189;=
+padding-right:5px;">lundi =E0 vendredi : 8h30 - 23h <br/> week-end & jour f=
+=E9ri=E9 : 9h - 23h</td>
+            </tr>
+         </table>
+         <br/>
+         <table border=3D"0">
+            <tr>
+               <td style=3D"font-size:12px;color:#1e3745;font-family:helvet=
+ica;">DEPUIS LES R=C9SEAUX SOCIAUX EN TEMPS R=C9EL :</td>
+            </tr>
+            <tr>
+               <table>
+                  <tr>
+                     <td  style=3D"font-size:12px;vertical-align:center;col=
+or:#728189;font-family:arial;">lundi =E0 vendredi : 8h - 20h<br/>samedi : 9=
+h - 18h</td>
+                     <td style=3D"padding-left:10px;"><a href=3D"http://rt3=
+-t.notification-cdiscount.cdiscount.com/r/=3Fid=3Dh67b1a3f,95aecd2,95aecdc"=
+ target=3D"_blank"><img alt=3D"Facebook" src=3D"https://i6.cdscdn.com/image=
+sok/templatemail/20180306-101230_618889.png"></a></td>
+                     <td><a href=3D"http://rt3-t.notification-cdiscount.cdi=
+scount.com/r/=3Fid=3Dh67b1a3f,95aecd2,95aecdd" target=3D"_blank"><img alt=
+=3D"Twitter" src=3D"https://i6.cdscdn.com/imagesok/templatemail/20180130-10=
+4147_606180.png"></a></td>
+                  </tr>
+               </table>
+            </tr>
+            </td>
+            </tr>
+            <tr>
+               <td width=3D"680" height=3D"10" align=3D"center"><a href=3D"=
+#" target=3D"_blank" style=3D"font-size:12px;text-decoration:none;backgroun=
+d-color:white;"></a></td>
+            </tr>
+         </table>
+   <tr>
+      <td width=3D"680" height=3D"10" align=3D"center"><a href=3D"#" target=
+=3D"_blank" style=3D"font-size:12px;text-decoration:none;background-color:w=
+hite;"></a></td>
+   </tr>
+</table>
+<table width=3D"100%" align=3D"center" border=3D"0" cellspacing=3D"0" cellp=
+adding=3D"0" style=3D"background-color:#f4f2df;">
+   <tr>
+      <td>
+         <table width=3D"680" cellspacing=3D"0" cellpadding=3D"0" align=3D"=
+center">
+            <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=
+=3D"center">
+               <tr>
+                  <td>
+                     <img alt=3D"" src=3D"http://i6.cdscdn.com/imagesok/tem=
+platemail/20180223-152827_615810.png" style=3D"vertical-align:middle;">
+                  </td>
+               </tr>
+            </table>
+            <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=
+=3D"center">
+               <tr>
+                  <td><img alt=3D"" src=3D"https://i6.cdscdn.com/imagesok/t=
+emplatemail/20180223-152857_615811.png" style=3D"vertical-align:middle;"></=
+td>
+                  <td>
+                  <a href=3D"http://rt3-t.notification-cdiscount.cdiscount.=
+com/r/=3Fid=3Dh67b1a3f,95aecd2,95aecde" target=3D"_blank"><img alt=3D""  sr=
+c=3D"http://i6.cdscdn.com/imagesok/templatemail/20180223-152927_615812.png"=
+ style=3D"vertical-align:middle;"></a></td>
+                  <td>
+          <img alt=3D"" src=3D"http://i6.cdscdn.com/imagesok/templatemail/2=
+0180223-152955_615813.png" style=3D"vertical-align:middle;"></td>
+                  <td>
+                  <a href=3D"http://rt3-t.notification-cdiscount.cdiscount.=
+com/r/=3Fid=3Dh67b1a3f,95aecd2,95aecdf" target=3D"_blank"><img alt=3D"" src=
+=3D"http://i6.cdscdn.com/imagesok/templatemail/20180223-153033_615814.png"s=
+tyle=3D"vertical-align:middle;"></a></td>
+                  <td>
+          <img alt=3D"" src=3D"http://i6.cdscdn.com/imagesok/templatemail/2=
+0180223-153055_615815.png" style=3D"vertical-align:middle;">
+          </td>
+               </tr>
+            </table>
+            <table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=
+=3D"center">
+               <tr>
+                  <td>
+                     <img alt=3D"" src=3D"https://i6.cdscdn.com/imagesok/te=
+mplatemail/20180223-153155_615819.png" style=3D"vertical-align:middle;">
+                  </td>
+               </tr>
+            </table>
+         </table>
+         </td>
+      </tr>
+</table>
+
+
+
+<table cellpadding=3D"0" cellspacing=3D"0" border=3D"0" align=3D"center" st=
+yle=3D"font-family:Arial;">
+   <tr>
+      <td width=3D"680" height=3D"10" align=3D"center"><a href=3D"#" target=
+=3D"_blank" style=3D"color:#096ec8;font-size:12px;text-decoration:none;"></=
+a></td>
+   </tr>
+</table>
+
+<img src=3D"https://cdiscount.analytics.3wregie.eu/v1/touches/pixel=3F$ev=
+=3D$email_view&$dat_token=3DD_3WR16&$cuid=3D00000002KTD1" width=3D"1" heigh=
+t=3D"1"/>
+
+<!-- FIN FOOTER-->
+               <!-- FIN FOOTER-->
+               <p align=3Dcenter>
+  <font style=3D"font-family: Verdana, Arial; font-size: 10px">
+  Si vous avez des difficult=E9s d'affichage :
+  <a href=3D"http://rt3-t.notification-cdiscount.cdiscount.com/r/=3Fid=3Dh6=
+7b1a3f,95aecd2,95aeede&p1=3D%40Xz3pbOnavJgPvlSv%2FK%2FoXJ%2Fna0f%2F7XEhZxUn=
+9mzNi3E%3D" _label=3D"Page miroir" _type=3D"mirrorPage">consultez la versio=
+n en ligne</a>
+  </font>
+</p>
+
+               </td>
+               </tr>
+            </table>
+            <!--FIN TEMPLATE ENTIER-->
+   <img height=3D'0' width=3D'0' alt=3D'' src=3D'http://rt3-t.notification-=
+cdiscount.cdiscount.com/r/=3Fid=3Dh67b1a3f,95aecd2,1'/></body>
+</html>
+
+
