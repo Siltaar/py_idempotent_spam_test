@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # coding: utf-8
 # author : Simon Descarpentries
-# date: 2017-03 - 2018-03
+# date: 2017 - 2018
 # licence: GPLv3
 
 from __future__ import print_function
