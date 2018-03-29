@@ -31,13 +31,13 @@ def test_spam_test_theoritical_cases(stdin_eml):
 	... 'h@h.tk,i@i.tk,j@j.tk\\nSubject: More than 9 recipients, scored 2\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200',DEBUG)
 	3
-	>>> spam_test('To:a@a.tk\\nSubject:Not 1/2 ASCII =?utf-8?b?w6nDqcOpw6nDqcOpw6n=?=\\n'
+	>>> spam_test('To:a@a.tk\\nSubject:Not / ASCII =?utf-8?b?w6nDqcOpw6nDqcOpw6nDqcOpw6n=?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200',DEBUG)
 	3
 	>>> spam_test('To:No subject scored 2 <a@a.tk>\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200',DEBUG)
 	3
-	>>> spam_test('Subject: no To no ASCII:3 =?utf-8?b?w6nDqcOpw6nDqcOpw6nDqcOpw6n=?=\\n'
+	>>> spam_test('Subject:no To no ASCII =?utf-8?b?w6nDqcOpw6nDqcOpw6nDqcOpw6nDqcOpw6n=?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200',DEBUG)
 	4
 	>>> spam_test('Subject: =?gb2312?B?vNLT0NChxau499bW1sa3/sC009W78w==?=\\n'
@@ -52,11 +52,11 @@ def test_spam_test_theoritical_cases(stdin_eml):
 	>>> spam_test('Subject: Near futur -2 h\\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
 	... 'Received:Wed, 26 Apr 2017 14:19:14 +0200', DEBUG)
 	4
-	>>> spam_test('Subject: Far past +15 d \\nDate: Tue, 11 Apr 2017 16:20:14 +0200\\n'
-	... 'Received:Wed, 26 Apr 2016 14:21:14 +0200', DEBUG)
+	>>> spam_test('Subject: Far past +15 d \\nDate: Tue, 10 Apr 2017 16:20:14 +0200\\n'
+	... 'Received:Wed, 26 Apr 2017 14:21:14 +0200', DEBUG)
 	5
 	>>> spam_test('Subject: Far futur -2 d \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
-	... 'Received:Mon, 24 Apr 2016 16:19:14 +0200', DEBUG)
+	... 'Received:Mon, 24 Apr 2017 16:19:14 +0200', DEBUG)
 	5
 	>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>\\nDate: Wed, 26 Apr '
 	... '2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:25:14 +0200', DEBUG)
@@ -89,6 +89,8 @@ def test_spam_test_real_cases(stdin_eml):
 	1
 	>>> spam_test(open('test_email/20180326.eml').read(), DEBUG)  # small text 0 alpha length
 	2
+	>>> spam_test(open('test_email/20180328.eml').read(), DEBUG)  # Mozilla AsciiArt deco
+	0
 	"""
 	return spam_test(stdin_eml)
 

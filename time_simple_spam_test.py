@@ -52,6 +52,8 @@ Python 3.5.3
 20180324 3 :  8 tests ; 1.440 ; 1.800ms/t  - 15%
 20180326 2 : 26 tests ; 2.05s ; 0,788ms/t (spam if body len < 25 and no HTML part)
 20180326 3 : 26 tests ; 2.32s ; 0,892ms/t  - 12%
+20180328 2 : 27 tests ; 2.13s ; 0,788ms/t (regexp out badchars ; seeks bad HTML in 10 1st char)
+20180328 3 : 27 tests ; 2.43s ; 0,900ms/t  - 12.5%
 
 """
 

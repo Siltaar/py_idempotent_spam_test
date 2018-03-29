@@ -1,0 +1,71 @@
+Return-Path: <bounce-100_TEXT-373264613-3615598-1065730-3601@bounce.e.mozilla.org>
+Delivered-To: aaa@aaa.aa
+Received: by bbb (fdm 1.9, account "ccc")
+ with imap (version=TLSv1/SSLv3 ECDHE-RSA-AES128-GCM-SHA256 128 bits)
+ Wed, 28 Mar 2018 10:16:07 +0200
+Received: from spool.mail.gandi.net (spool3.mail.gandi.net [217.70.178.212])
+ by nmboxes7.sd4.0x35.net (Postfix) with ESMTP id 9E1134112D
+ for <aaa@aaa.aa>; Wed, 28 Mar 2018 08:15:54 +0000 (UTC)
+Received: from acoeuro.com (acoeuro.com [92.243.17.214])
+ by spool.mail.gandi.net (Postfix) with ESMTPS id 9D141AC0860
+ for <aaa@aaa.aa>; Wed, 28 Mar 2018 10:15:50 +0200 (CEST)
+Received: from mta.e.mozilla.org ([68.232.195.97])
+ by acoeuro.com with esmtp (Exim 4.89) (envelope-from
+ <bounce-100_TEXT-373264613-3615598-1065730-3601@bounce.e.mozilla.org>)
+ id 1f16Cv-0000GF-8j
+ for ddd@dd.dd; Wed, 28 Mar 2018 10:13:21 +0200
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=200608; d=e.mozilla.org;
+ h=From:To:Subject:Date:MIME-Version:Reply-To:List-ID:Message-ID:Content-Type:Content-Transfer-Encoding;
+ i=Mozilla@e.mozilla.org; bh=HLBB+kjo9BLxvMsPK1plY/ELQ7g=;
+ b=WZnGtnaVUEwSaBnSJx/WsQ7w0KAuV7xnbRnDOpWtiFEkAK/Pe5wcQ8oEDRQclpIzWrFtufSf7gHu
+ GCZQGSK0Pj7Es2TD5q8VieSx1YDbONOjSpM7/lseJd6Jfks+XHbbEhLOya+3YzOhb/bjKSLT938l
+ 8eH+M/ce7lTCBIWI2p8=
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=200608; d=e.mozilla.org;
+ b=jBeduQXKLK2TtlCyUR50oUlckNQ+TMZ6jsdSzI4tk8FhMKRVi4Jj0t8u4MbEntLtDxmI7/Lls+Jj
+ H25PVHcC2imG4MHAT9sY4NlQswqBg9Ar7MPA5dyvL4+yYKiSx7Zgldg28K0zZAqIXnj7ACCSc8eY
+ V5VBUFis9o0SMWj+V6c=;
+Received: by mta.e.mozilla.org id hnd7ji163hs4 for <ddd@dd.dd>;
+ Wed, 28 Mar 2018 08:15:51 +0000 (envelope-from
+ <bounce-100_TEXT-373264613-3615598-1065730-3601@bounce.e.mozilla.org>)
+From: "Mozilla" <Mozilla@e.mozilla.org>
+To: <ddd@dd.dd>
+Subject: Action required: Confirm your subscription to the Mozilla Developer
+ Newsletter
+Date: Wed, 28 Mar 2018 02:15:48 -0600
+MIME-Version: 1.0
+Reply-To: "Mozilla Devs"
+ <reply-fe8a1776746101747d-100_TEXT-373264613-1065730-3601@e.mozilla.org>
+List-ID: <1065730_3615598.xt.local>
+X-CSA-Complaints: whitelistcomplaints@eco.de
+x-job: 1065730_3615598
+Message-ID: <ce0e4d91-63d1-4699-8a28-44c0dfe76cf2@las1s04mta935.xt.local>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Level:
+Content-Length: 534
+
+Mozilla
+
+*********************************************
+Almost done!
+*********************************************
+
+
+To complete the signup process for Mozilla emails, you need to confirm you received this email. To do so, please click the link below.
+
+CONFIRM:
+
+https://www.mozilla.org/en-US/newsletter/confirm/8d262952-1c77-4604-b7ae-ae48151899ae/
+
+
+
+*********************************************
+Mozilla
+331 E. Evelyn Avenue Mountain View CA 94041
+
+
+Read the Mozilla Privacy Policy
+https://www.mozilla.org/privacy-policy.html
+
+
