@@ -5,19 +5,18 @@
 # licence: GPLv3
 
 from __future__ import print_function
-from sys import stdin, stderr, version_info
 from email.parser import Parser
-from email.header import decode_header
-from email.header import make_header
+from email.header import decode_header, make_header
 from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz
-from curses.ascii import isalpha
 from datetime import datetime, timedelta
+from curses.ascii import isalpha
+from re import compile as compile_re
 
 
 def spam_test(stdin_eml, debug=0):
 	eml = Parser().parsestr(stdin_eml)
 	score = 0
-	debug and print("%s " % eml.get('Subject', ''), end='', file=stderr)
+	debug and put("%s " % eml.get('Subject', '')[:20].ljust(20))
 
 	ctype = ''
 	text_parts = []
@@ -25,7 +24,7 @@ def spam_test(stdin_eml, debug=0):
 
 	for part in eml.walk():
 		ctype = part.get_content_type()
-		# debug and print('ctype %s ' % part.get_content_type(), end='', file=stderr)
+		# debug and put('ctype %s ' % part.get_content_type())
 
 		if 'plain' in ctype or 'application/octet-stream' in ctype:
 			text_parts.append(part)
@@ -36,12 +35,12 @@ def spam_test(stdin_eml, debug=0):
 	for part in html_parts:
 		html_src = part.get_payload(decode=True)
 
-		if b'<' not in html_src[:128]:  # looks like malformed HTML
-			debug and print("\033[1;33mbad HTML\033[0m ", end='', file=stderr)
+		if b'<' not in html_src[:10]:  # looks like malformed HTML
+			debug and put(yel("bad HTML "))
 			score += 1
 
 		if len(html_src) > 30000:
-			debug and print("\033[1;33mbig HTML\033[0m ", end='', file=stderr)
+			debug and put(yel("big HTML "))
 			score += score == 0
 
 	body = ''
@@ -53,31 +52,33 @@ def spam_test(stdin_eml, debug=0):
 			body = text
 
 	body_len, body_alpha_len = email_alpha_len(body, lambda b: b[:256])
+	# debug and put("body %i/%i " % (body_alpha_len, body_len))
 
 	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
-		debug and print("body %i/%i " % (body_alpha_len, body_len), end='', file=stderr)
+		debug and put(yel("body") + " %i/%i " % (body_alpha_len, body_len))
 
-	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_txt)
+	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_str)
 
 	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 		score += score == 0
-		debug and print("from %i/%i " % (from_alpha_len, from_len), end='', file=stderr)
+		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
 
-	subj_len, subj_alpha_len = email_alpha_len(eml.get('Subject', ''), header_txt)
+	subj_len, subj_alpha_len = email_alpha_len(eml.get('Subject', ''), header_str)
+	# debug and put("subj %i/%i " % (subj_alpha_len, subj_len))
 
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
-		debug and print("subj %i/%i " % (subj_alpha_len, subj_len), end='', file=stderr)
+		debug and put(yel("subj") + " %i/%i " % (subj_alpha_len, subj_len))
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
-		debug and print("recs %i " % (recipient_count), end='', file=stderr)
+		debug and put(yel("recs") + " %i " % (recipient_count))
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
@@ -85,48 +86,68 @@ def spam_test(stdin_eml, debug=0):
 		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
 
 	if eml_dt < recv_dt - timedelta(hours=6) or eml_dt > recv_dt + timedelta(hours=2):
-		debug and print("date %s recv %s " % (eml_dt, recv_dt), end='', file=stderr)
+		# debug and put("date %s recv %s " % (eml_dt, recv_dt))
 		score += 1
 
 		if eml_dt < recv_dt - timedelta(days=15) or \
 			eml_dt > recv_dt + timedelta(days=2):
-			debug and print("\033[1;31mfar\033[0m ", end='', file=stderr)
+			debug and put(red("time ") + str(recv_dt - eml_dt))
 			score += 1
 		else:
-			debug and print("\033[1;33mnear\033[0m ", end='', file=stderr)
+			debug and put(yel("time ") + str(recv_dt - eml_dt))
 
 	if (eml.get('X-Spam-Status', '').lower() == 'yes' or
 		eml.get('X-Spam-Flag', '').lower() == 'yes' or
 		len(eml.get('X-Spam-Level', '')) > 3):
-		debug and print("\033[1;33mX-Spam\033[0m ", end='', file=stderr)
+		debug and put(yel(" X-Spam "))
 		score += 1
 
-	debug and print('\033[1;35m%s\033[0m\n' % score, end='', file=stderr)
+	debug and put('\033[1;35m%s\033[0m\n' % score)  # purple
 	print(str(score))
+
+
+bad_chars_re = compile_re('[ >\n\xc2\xa0.,@#-=:*\]\[+_()/|\'\t\r\f\v]')
 
 
 def email_alpha_len(t, f):
 	try:
-		refined_t = f(t)
+		s = f(t)
 	except Exception as e:
-		print(str(e) + '\n', file=stderr)
-		refined_t = ''
-	return alpha_len(refined_t)
+		put(str(e) + '\n')
+		s = ''
 
-
-def alpha_len(s):
 	s_len = len(s)
 
 	if type(s) is not unicode:
 		s = unicode(s, errors='ignore')
 
+	s_with_bad_chars_len = len(s)
+	s = bad_chars_re.sub('', s)
+	bad_chars_len = s_with_bad_chars_len - len(s)
 	ascii_s = s.encode('ascii', errors='ignore')
 	s_alpha_len = len([c for c in ascii_s if isalpha(c)])
-	return s_len, s_alpha_len
+	# s_unicode_len = len([c for c in s if s.isalnum()])  # considers chinese char as alpha
+	return s_len - bad_chars_len, s_alpha_len
 
 
-def header_txt(h):
+def header_str(h):
 	return unicode(make_header(decode_header(h)))
+
+
+def yel(s):
+	return '\033[1;33m' + s + '\033[0m'
+
+
+def red(s):
+	return '\033[1;31m' + s + '\033[0m'
+
+
+def put(s):
+	from sys import stderr
+	print(s, end='', file=stderr)
+
+
+from sys import version_info
 
 
 if version_info.major > 2:  # In Python 3: str is the new unicode
@@ -135,6 +156,7 @@ if version_info.major > 2:  # In Python 3: str is the new unicode
 if __name__ == "__main__":
 	if version_info.major > 2:
 		from io import TextIOWrapper
+		from sys import stdin
 		spam_test(TextIOWrapper(stdin.buffer, errors='ignore').read())
 	else:
 		spam_test(stdin.read())
