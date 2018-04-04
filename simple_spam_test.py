@@ -1,10 +1,11 @@
 #!/usr/bin/env python2
 # coding: utf-8
 # author : Simon Descarpentries
-# date: 2017-03 - 2018-03
+# date: 2017 - 2018
 # licence: GPLv3
 
 from __future__ import print_function
+from sys import version_info
 from email.parser import Parser
 from email.header import decode_header, make_header
 from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz
@@ -145,9 +146,6 @@ def red(s):
 def put(s):
 	from sys import stderr
 	print(s, end='', file=stderr)
-
-
-from sys import version_info
 
 
 if version_info.major > 2:  # In Python 3: str is the new unicode
