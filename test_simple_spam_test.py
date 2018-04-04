@@ -71,25 +71,25 @@ def test_spam_test_theoritical_cases(stdin_eml):
 
 def test_spam_test_real_cases(stdin_eml):
 	"""
-	>>> spam_test(open('test_email/20171010.eml').read(), DEBUG)  # chinese content
+	>>> spam_test(open('email_test/20171010.eml').read(), DEBUG)  # chinese content
 	3
-	>>> spam_test(open('test_email/20171012.eml').read(), DEBUG)  # no text nor HTML part
+	>>> spam_test(open('email_test/20171012.eml').read(), DEBUG)  # no text nor HTML part
 	3
-	>>> spam_test(open('test_email/20171107.eml').read(), DEBUG)  # longer chinese content
+	>>> spam_test(open('email_test/20171107.eml').read(), DEBUG)  # longer chinese content
 	3
-	>>> spam_test(open('test_email/20171130.eml').read(), DEBUG)  # PGP ciphered email
+	>>> spam_test(open('email_test/20171130.eml').read(), DEBUG)  # PGP ciphered email
 	0
-	>>> spam_test(open('test_email/20171219.eml').read(), DEBUG)  # chinese base64 body
+	>>> spam_test(open('email_test/20171219.eml').read(), DEBUG)  # chinese base64 body
 	2
-	>>> spam_test(open('test_email/20180130.eml').read(), DEBUG)  # no text, bad HTML
+	>>> spam_test(open('email_test/20180130.eml').read(), DEBUG)  # no text, bad HTML
 	2
-	>>> spam_test(open('test_email/20180321.eml').read(), DEBUG)  # small body chinese Subj, To:
+	>>> spam_test(open('email_test/20180321.eml').read(), DEBUG)  # small body chinese Subj, To:
 	2
-	>>> spam_test(open('test_email/20180322.eml').read(), DEBUG)  # valid big HTML body only
+	>>> spam_test(open('email_test/20180322.eml').read(), DEBUG)  # valid big HTML body only
 	1
-	>>> spam_test(open('test_email/20180326.eml').read(), DEBUG)  # small text 0 alpha length
+	>>> spam_test(open('email_test/20180326.eml').read(), DEBUG)  # small text 0 alpha length
 	2
-	>>> spam_test(open('test_email/20180328.eml').read(), DEBUG)  # Mozilla AsciiArt deco
+	>>> spam_test(open('email_test/20180328.eml').read(), DEBUG)  # Mozilla AsciiArt deco
 	0
 	"""
 	return spam_test(stdin_eml)

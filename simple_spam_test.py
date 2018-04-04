@@ -154,9 +154,10 @@ if version_info.major > 2:  # In Python 3: str is the new unicode
 	unicode = str
 
 if __name__ == "__main__":
+	from sys import stdin
+
 	if version_info.major > 2:
 		from io import TextIOWrapper
-		from sys import stdin
 		spam_test(TextIOWrapper(stdin.buffer, errors='ignore').read())
 	else:
 		spam_test(stdin.read())
