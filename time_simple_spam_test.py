@@ -6,6 +6,7 @@
 
 from doctest import run_docstring_examples
 from datetime import datetime
+from simple_spam_test import spam_test
 from test_simple_spam_test import test_spam_test_theoritical_cases, test_spam_test_real_cases
 
 """
