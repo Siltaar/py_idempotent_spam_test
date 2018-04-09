@@ -38,7 +38,7 @@ incremented by 1 (or 2).
 ### X-Spam-Status
 If the message has already been flagged as spam, we increment the score by 1.
 
-## Performance note
+## Performance notes
 In a quest for performance, I compared Python 3 and Python 2 versions of the
 code. Python 2.7 appeared to be 20% to 30% quicker than Python 3.4 in Debian
 stable 8.7 for a sample of 200 randomly contact@ emails of a small french
@@ -46,7 +46,10 @@ software company.
 
 Cython compilation was 2 times slower in this edge case.
 
-`-O` and `-OO` python's options are slowing down the computation by 3.
+`-O` have no measurable effect. +
+As the tests are `doctests`, `-OO` is not easy to evaluate. But for the 1st
+release (2017-04), I tested on real cases and it was slowing down the
+computation by 3.
 
 Python 2.7.13 still appear to be 10% to 15% quicker than Python 3.5.3 in Debian
 stable 9.3 for 100 runs of 23 tests (at 2018-03-15, see `time_simple_spam_test.py`
@@ -54,11 +57,18 @@ comments for more details).
 
 So I kept using Python 2 and made a cross-compatible version.
 
-## Efficiency note
+## Efficiency notes
 In the first 6 months I used `simple_spam_test` (between 2017-04 and 2017-10)
 on my inboxes, it saved me from reading 949 spams (with no false positive so
 far), 473 placed in purgatory zone and roughly 540 passed through. Thus it's a
 72% of efficiency, with less than one saved-from-purgatory email a day.
+
+In the 2nd semester, it saved me from reading 2727 spams (mainly mails without
+enough latin letters, but also 16 false positives, mainly because of the
+recipient count rule), 397 placed in purgatory zone, and roughly 400 french
+real services advertisement passed through. So we reach 88% of efficiency here,
+if we don't ponderate the false positives. 84% if a false positive is valued as
+10 spams, and 43% if a false positive is valued as 100 spams.
 
 ## Example
 ### `fdm.conf` snippet :
