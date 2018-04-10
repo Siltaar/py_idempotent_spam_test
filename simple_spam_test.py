@@ -92,10 +92,10 @@ def spam_test(stdin_eml, debug=0):
 
 		if eml_dt < recv_dt - timedelta(days=15) or \
 			eml_dt > recv_dt + timedelta(days=2):
-			debug and put(red("time ") + str(recv_dt - eml_dt))
+			debug and put(red("time") + " %s " % str(recv_dt - eml_dt))
 			score += 1
 		else:
-			debug and put(yel("time ") + str(recv_dt - eml_dt))
+			debug and put(yel("time") + " %s " % str(recv_dt - eml_dt))
 
 	if (eml.get('X-Spam-Status', '').lower() == 'yes' or
 		eml.get('X-Spam-Flag', '').lower() == 'yes' or
