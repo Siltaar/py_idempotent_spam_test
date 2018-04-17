@@ -15,8 +15,13 @@ from re import compile as compile_re
 
 
 def spam_test(stdin_eml, debug=0):
+	score, eml, log = spam_test_eml_log(stdin_eml, debug)
+	return score
+
+def spam_test_eml_log(stdin_eml, debug=0):
 	eml = Parser().parsestr(stdin_eml)
 	score = 0
+	log = ''
 	debug and put("%s " % eml.get('Subject', '')[:20].ljust(20))
 
 	ctype = ''
@@ -38,10 +43,12 @@ def spam_test(stdin_eml, debug=0):
 
 		if b'<' not in html_src[:10]:  # looks like malformed HTML
 			debug and put(yel("bad HTML "))
+			log += 'bad HTML '
 			score += 1
 
 		if len(html_src) > 30000:
 			debug and put(yel("big HTML "))
+			log += 'big HTML '
 			score += score == 0
 
 	body = ''
@@ -57,16 +64,19 @@ def spam_test(stdin_eml, debug=0):
 
 	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
+		log += 'small body '
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
 		debug and put(yel("body") + " %i/%i " % (body_alpha_len, body_len))
+		log += 'bad body '
 
 	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_str)
 
 	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 		score += score == 0
 		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
+		log += 'bad from '
 
 	subj_len, subj_alpha_len = email_alpha_len(eml.get('Subject', ''), header_str)
 	# debug and put("subj %i/%i " % (subj_alpha_len, subj_len))
@@ -74,12 +84,14 @@ def spam_test(stdin_eml, debug=0):
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug and put(yel("subj") + " %i/%i " % (subj_alpha_len, subj_len))
+		log += 'bad subj '
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	if recipient_count == 0 or recipient_count > 9:
 		score += 1  # If there is no or more than 9 recipients, it may be a spam
 		debug and put(yel("recs") + " %i " % (recipient_count))
+		log += 'recs %i ' % recipient_count
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
@@ -94,17 +106,20 @@ def spam_test(stdin_eml, debug=0):
 			eml_dt > recv_dt + timedelta(days=2):
 			debug and put(red("time") + " %s " % str(recv_dt - eml_dt))
 			score += 1
+			log += 'far time '
 		else:
 			debug and put(yel("time") + " %s " % str(recv_dt - eml_dt))
+			log += 'near time '
 
 	if (eml.get('X-Spam-Status', '').lower() == 'yes' or
 		eml.get('X-Spam-Flag', '').lower() == 'yes' or
 		len(eml.get('X-Spam-Level', '')) > 3):
 		debug and put(yel(" X-Spam "))
 		score += 1
+		log += 'X-Spam '
 
 	debug and put('\033[1;35m%s\033[0m\n' % score)  # purple
-	print(str(score))
+	return score, eml, log
 
 
 bad_chars_re = compile_re('[ >\n\xc2\xa0.,@#-=:*\]\[+_()/|\'\t\r\f\v]')
@@ -154,8 +169,15 @@ if version_info.major > 2:  # In Python 3: str is the new unicode
 if __name__ == "__main__":
 	from sys import stdin
 
+	eml = None
+	log = ''
+
 	if version_info.major > 2:
 		from io import TextIOWrapper
-		spam_test(TextIOWrapper(stdin.buffer, errors='ignore').read())
+		score, eml, log = spam_test_eml_log(TextIOWrapper(stdin.buffer, errors='ignore').read())
 	else:
-		spam_test(stdin.read())
+		score, eml, log = spam_test_eml_log(stdin.read())
+
+	eml['x-simple-spam-score'] = str(score)
+	eml['x-simple-spam-log'] = log
+	print(eml)

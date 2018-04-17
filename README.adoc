@@ -1,8 +1,14 @@
+:toc:
+
 Test the spam probability of an email based on idempotent rules (no learning).
 
 `spam_test.py` expect email input via stdin and outputs the spam score on the
 standard output. + Created to be used with https://github.com/nicm/fdm[FDM] in
-a `pipe` action.
+a `rewrite` action.
+
+The script adds two custom email-headers :
+* `x-simple-spam-score` : which holds the spam score
+* `x-simple-spam-log` : which keep track of how the score was computed
 
 ## Rules and scores
 There are currently 5 sets of rules, each one is able to increment the spam
@@ -73,9 +79,10 @@ if we don't ponderate the false positives. 84% if a false positive is valued as
 ## Example
 ### `fdm.conf` snippet :
 ```conf
-match pipe "python -SE spam_test.py" returns (,'^([0-9]+)$') action tag "spam_score" value "%[command0]" continue
-match string "%[spam_score]" to "1" action maildir "%h/.Maildir/.spam"
-match string "%[spam_score]" to "[2-9]" action maildir "%h/.Maildir/.furspam"
+match all action rewrite "python2 -SE ~/.sbin/simple_spam_test/simple_spam_test.py" continue
+
+match "^x-simple-spam-score: 1" in headers action maildir "%h/.Maildir/.spam"
+match "^x-simple-spam-score: [2-9]" in headers action maildir "%h/.Maildir/.furspam"
 ```
 
 ## Testsuite
