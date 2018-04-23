@@ -7,8 +7,9 @@ standard output. + Created to be used with https://github.com/nicm/fdm[FDM] in
 a `rewrite` action.
 
 The script adds two custom email-headers :
-* `x-simple-spam-score` : which holds the spam score
-* `x-simple-spam-log` : which keep track of how the score was computed
+
+- `x-simple-spam-score` : which holds the spam score
+- `x-simple-spam-log` : which keep track of how the score was computed
 
 ## Rules and scores
 There are currently 5 sets of rules, each one is able to increment the spam
@@ -23,10 +24,10 @@ Body part is tested anyway. The tested body is the biggest text part. No
 textual body (or chinese only one) will increment the score by 1.
 
 ### Text and HTML parts
-If the the biggest text part is smaller than 150 characters, the score is
+If the the biggest text part is smaller than 25 characters, the score is
 incremented to 1 if it was 0.
 
-If an HTML part is bigger than 10k characters, the score is incremented to 1
+If an HTML part is bigger than 32k characters, the score is incremented to 1
 if it was 0. If HTML appears to be unvalid, the score is incremented by 1.
 
 ### Recipient count

@@ -46,7 +46,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 			log += 'bad HTML '
 			score += 1
 
-		if len(html_src) > 30000:
+		if len(html_src) > 32000:
 			debug and put(yel("big HTML "))
 			log += 'big HTML '
 			score += score == 0
@@ -64,7 +64,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 
 	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
-		log += 'small body '
+		log += 'small body and no HTML '
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
