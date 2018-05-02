@@ -18,6 +18,7 @@ def spam_test(stdin_eml, debug=0):
 	score, eml, log = spam_test_eml_log(stdin_eml, debug)
 	return score
 
+
 def spam_test_eml_log(stdin_eml, debug=0):
 	eml = Parser().parsestr(stdin_eml)
 	score = 0
