@@ -11,7 +11,7 @@ from email.header import decode_header, make_header
 from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz
 from datetime import datetime, timedelta
 from curses.ascii import isalpha
-from re import compile as compile_re
+from re import compile as compile_re, findall
 
 
 def spam_test(stdin_eml, debug=0):
@@ -27,6 +27,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	ctype = ''
 	text_parts = []
 	html_parts = []
+	same_links = True
 
 	for part in eml.walk():
 		ctype = part.get_content_type()
@@ -50,6 +51,10 @@ def spam_test_eml_log(stdin_eml, debug=0):
 			debug and put(yel("big HTML "))
 			log += 'big HTML '
 			score += score == 0
+		elif max_same_links(html_src) > 4 and same_links:
+			score += 1
+			log += 'same html links '
+			same_links = False
 
 	body = ''
 
@@ -65,18 +70,14 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
 		log += 'small body and no HTML '
+	elif max_same_links(body) > 4 and same_links:
+		score += 1
+		log += 'same txt links '
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
 		debug and put(yel("body") + " %i/%i " % (body_alpha_len, body_len))
 		log += 'bad body '
-
-	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_str)
-
-	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
-		score += score == 0
-		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
-		log += 'bad from '
 
 	subj_len, subj_alpha_len = email_alpha_len(eml.get('Subject', ''), header_str)
 	# debug and put("subj %i/%i " % (subj_alpha_len, subj_len))
@@ -85,6 +86,13 @@ def spam_test_eml_log(stdin_eml, debug=0):
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
 		debug and put(yel("subj") + " %i/%i " % (subj_alpha_len, subj_len))
 		log += 'bad subj '
+
+	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_str)
+
+	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
+		score += score > 0
+		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
+		log += 'bad from '
 
 	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
@@ -144,6 +152,15 @@ def email_alpha_len(t, f):
 	s_alpha_len = len([c for c in ascii_s if isalpha(c)])
 	# s_unicode_len = len([c for c in s if s.isalnum()])  # considers chinese char as alpha
 	return s_len - bad_chars_len, s_alpha_len
+
+
+links_re = compile_re('http.?://(.*?)(/| )')
+
+def max_same_links(t):
+	domains = [a[0] for a in links_re.findall(str(t))]
+	occurences = [domains.count(a) for a in domains]
+	occurences.sort()
+	return occurences[-1] if len(occurences) else 0
 
 
 def header_str(h):

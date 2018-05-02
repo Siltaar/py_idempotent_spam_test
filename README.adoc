@@ -12,13 +12,13 @@ The script adds two custom email-headers :
 - `x-simple-spam-log` : which keep track of how the score was computed
 
 ## Rules and scores
-There are currently 5 sets of rules, each one is able to increment the spam
+There are currently 6 sets of rules, each one is able to increment the spam
 score by or to 1.
 
 ### Subject, From and body alphabetic letters
 If the subject is missing, empty or contains less than half ASCII alphabetic
 letters, the spam score is incremented by 1 and the From header name part is
-tested also, incrementing the score to 1 if it was 0.
+tested also, incrementing the score by 1 if is was already more than 0.
 
 Body part is tested anyway. The tested body is the biggest text part. No
 textual body (or chinese only one) will increment the score by 1.
@@ -29,6 +29,10 @@ incremented to 1 if it was 0.
 
 If an HTML part is bigger than 32k characters, the score is incremented to 1
 if it was 0. If HTML appears to be unvalid, the score is incremented by 1.
+
+### Link count
+If an HTML part or the biggest text part contains 5 or more links to a same
+domain, the score is incremented by 1.
 
 ### Recipient count
 If there is no recipients or more than 9, the spam score is incremented to 1

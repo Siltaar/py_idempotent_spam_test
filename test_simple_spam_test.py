@@ -60,7 +60,7 @@ def test_spam_test_theoritical_cases(stdin_eml):
 	5
 	>>> spam_test('From: =?utf-8?b?5Luj?= <a@a.tk>\\nDate: Wed, 26 Apr '
 	... '2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:25:14 +0200', DEBUG)
-	4
+	5
 	>>> spam_test('X-Spam-Status: Yes', DEBUG)
 	7
 	>>> spam_test('X-Spam-Level: ****', DEBUG)
@@ -86,11 +86,13 @@ def test_spam_test_real_cases(stdin_eml):
 	>>> spam_test(open('email_test/20180321.eml').read(), DEBUG)  # small body chinese Subj, To:
 	2
 	>>> spam_test(open('email_test/20180322.eml').read(), DEBUG)  # valid big HTML body only
-	1
+	2
 	>>> spam_test(open('email_test/20180326.eml').read(), DEBUG)  # small text 0 alpha length
 	2
 	>>> spam_test(open('email_test/20180328.eml').read(), DEBUG)  # Mozilla AsciiArt deco
 	0
+	>>> spam_test(open('email_test/20180429.eml').read(), DEBUG)  # Trop de liens, même URL
+	1
 	"""
 	return spam_test(stdin_eml)
 
