@@ -12,7 +12,7 @@ The script adds two custom email-headers :
 - `x-simple-spam-log` : which keep track of how the score was computed
 
 ## Rules and scores
-There are currently 6 sets of rules, each one is able to increment the spam
+There are currently 5 sets of rules, each one is able to increment the spam
 score by or to 1.
 
 ### Subject, From and body alphabetic letters
@@ -33,10 +33,6 @@ if it was 0. If HTML appears to be unvalid, the score is incremented by 1.
 ### Link count
 If an HTML part or the biggest text part contains 5 or more links to a same
 domain, the score is incremented by 1.
-
-### Recipient count
-If there is no recipients or more than 9, the spam score is incremented to 1
-if it was 0.
 
 ### Date and time
 If the date and time of the Date header of the email is in the future compared

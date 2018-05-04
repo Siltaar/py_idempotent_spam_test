@@ -55,8 +55,10 @@ Python 3.5.3
 20180326 3 : 26 tests ; 2.32s ; 0,892ms/t  - 12%
 20180328 2 : 27 tests ; 2.13s ; 0,788ms/t (regexp out badchars ; seeks bad HTML in 10 1st char)
 20180328 3 : 27 tests ; 2.43s ; 0,900ms/t  - 12.5%
-20180330 2 : 28 tests ; 2.35s ; 0,839ms/t (regexp to count links, if >4 same domain -> +1)
-20180330 3 : 28 tests ; 2.72s ; 0,971ms/t  - 13.5%
+20180430 2 : 28 tests ; 2.35s ; 0,839ms/t (regexp to count links, if >4 same domain -> +1)
+20180430 3 : 28 tests ; 2.72s ; 0,971ms/t  - 13.5%
+20180504 2 : 27 tests ; 2.17s ; 0,803mt/t (stop counting recipients)
+20180504 3 : 27 tests ; 2.51s ; 0,929mt/t  - 13.5%
 
 """
 

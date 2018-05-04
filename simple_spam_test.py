@@ -54,7 +54,8 @@ def spam_test_eml_log(stdin_eml, debug=0):
 			score += score == 0
 		elif max_same_links(html_src) > 4 and same_links:
 			score += 1
-			log += 'same html links '
+			log += 'same HTML links '
+			debug and put('same HTML ' + yel("links") + " %i " % max_same_links(html_src))
 			same_links = False
 
 	body = ''
@@ -74,6 +75,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	elif max_same_links(body) > 4 and same_links:
 		score += 1
 		log += 'same txt links '
+		debug and put('same txt ' + yel("links") + " %i " % max_same_links(body))
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
@@ -95,12 +97,12 @@ def spam_test_eml_log(stdin_eml, debug=0):
 		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
 		log += 'bad from '
 
-	recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
+	# recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
-	if recipient_count == 0 or recipient_count > 9:
-		score += 1  # If there is no or more than 9 recipients, it may be a spam
-		debug and put(yel("recs") + " %i " % (recipient_count))
-		log += 'recs %i ' % recipient_count
+	# if recipient_count == 0 or recipient_count > 9:
+	#	score += 1  # If there is no or more than 9 recipients, it may be a spam
+	#	debug and put(yel("recs") + " %i " % (recipient_count))
+	#	log += 'recs %i ' % recipient_count
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
