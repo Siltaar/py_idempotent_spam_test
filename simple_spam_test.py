@@ -8,10 +8,11 @@ from __future__ import print_function
 from sys import version_info
 from email.parser import Parser
 from email.header import decode_header, make_header
-from email.utils import getaddresses, parseaddr, parsedate_tz, mktime_tz
+# from email.utils import getaddresses
+from email.utils import parseaddr, parsedate_tz, mktime_tz
 from datetime import datetime, timedelta
 from curses.ascii import isalpha
-from re import compile as compile_re, findall
+from re import compile as compile_re
 
 
 def spam_test(stdin_eml, debug=0):
@@ -100,9 +101,9 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	# recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
 	# if recipient_count == 0 or recipient_count > 9:
-	#	score += 1  # If there is no or more than 9 recipients, it may be a spam
-	#	debug and put(yel("recs") + " %i " % (recipient_count))
-	#	log += 'recs %i ' % recipient_count
+	# 	score += 1  # If there is no or more than 9 recipients, it may be a spam
+	# 	debug and put(yel("recs") + " %i " % (recipient_count))
+	# 	log += 'recs %i ' % recipient_count
 
 	recv_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Received', 'Sat, 01 Jan 9999 01:01:01 +0000')[-30:])))
@@ -158,6 +159,7 @@ def email_alpha_len(t, f):
 
 
 links_re = compile_re('http.?://(.*?)(/| )')
+
 
 def max_same_links(t):
 	domains = [a[0] for a in links_re.findall(str(t))]
