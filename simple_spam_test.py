@@ -53,11 +53,20 @@ def spam_test_eml_log(stdin_eml, debug=0):
 			debug and put(yel("big HTML "))
 			log += 'big HTML '
 			score += score == 0
-		elif max_same_links(html_src) > 4 and same_links:
-			score += 1
-			log += 'same HTML links '
-			debug and put('same HTML ' + yel("links") + " %i " % max_same_links(html_src))
-			same_links = False
+		elif same_links:
+			a = max_same_links(html_src, htm_links_re)
+
+			if a > 4:
+				score += 1
+
+				if a > 19:
+					score += 1
+					debug and put('same HTML ' + red("links") + " %i " % a)
+				else:
+					debug and put('same HTML ' + yel("links") + " %i " % a)
+
+				log += 'same HTML links %i' % a
+				same_links = False
 
 	body = ''
 
@@ -73,10 +82,20 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
 		log += 'small body and no HTML '
-	elif max_same_links(body) > 4 and same_links:
-		score += 1
-		log += 'same txt links '
-		debug and put('same txt ' + yel("links") + " %i " % max_same_links(body))
+	elif same_links:
+		a = max_same_links(body, txt_links_re)
+
+		if a > 4:
+			score += 1
+
+			if a > 19:
+				score += 1
+				debug and put('same TXT ' + red("links") + " %i " % a)
+			else:
+				debug and put('same TXT ' + yel("links") + " %i " % a)
+
+			log += 'same TXT links %i' % a
+			same_links = False
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
@@ -158,10 +177,11 @@ def email_alpha_len(t, f):
 	return s_len - bad_chars_len, s_alpha_len
 
 
-links_re = compile_re('http.?://(.*?)(/| )')
+txt_links_re = compile_re('http.?://(.*?)(/| )')
+htm_links_re = compile_re('href=.http.?://(.*?)(/| )')
 
 
-def max_same_links(t):
+def max_same_links(t, links_re):
 	domains = [a[0] for a in links_re.findall(str(t))]
 	occurences = [domains.count(a) for a in domains]
 	occurences.sort()
