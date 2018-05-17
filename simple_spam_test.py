@@ -59,13 +59,13 @@ def spam_test_eml_log(stdin_eml, debug=0):
 			if a > 4:
 				score += 1
 
-				if a > 19:
+				if a > 14:
 					score += 1
 					debug and put('same HTML ' + red("links") + " %i " % a)
 				else:
 					debug and put('same HTML ' + yel("links") + " %i " % a)
 
-				log += 'same HTML links %i' % a
+				log += 'same HTML links %i ' % a
 				same_links = False
 
 	body = ''
@@ -79,7 +79,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	body_len, body_alpha_len = email_alpha_len(body, lambda b: b[:256])
 	# debug and put("body %i/%i " % (body_alpha_len, body_len))
 
-	if body_alpha_len < 25 and len(html_parts) == 0:  # too small, not so interesting
+	if body_alpha_len < 20 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
 		log += 'small body and no HTML '
 	elif same_links:
@@ -88,13 +88,13 @@ def spam_test_eml_log(stdin_eml, debug=0):
 		if a > 4:
 			score += 1
 
-			if a > 19:
+			if a > 14:
 				score += 1
 				debug and put('same TXT ' + red("links") + " %i " % a)
 			else:
 				debug and put('same TXT ' + yel("links") + " %i " % a)
 
-			log += 'same TXT links %i' % a
+			log += 'same TXT links %i ' % a
 			same_links = False
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
@@ -129,7 +129,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	eml_dt = datetime.utcfromtimestamp(mktime_tz(parsedate_tz(
 		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
 
-	if eml_dt < recv_dt - timedelta(hours=6) or eml_dt > recv_dt + timedelta(hours=2):
+	if eml_dt < recv_dt - timedelta(days=1) or eml_dt > recv_dt + timedelta(hours=1):
 		# debug and put("date %s recv %s " % (eml_dt, recv_dt))
 		score += 1
 
@@ -177,12 +177,12 @@ def email_alpha_len(t, f):
 	return s_len - bad_chars_len, s_alpha_len
 
 
-txt_links_re = compile_re('http.?://(.*?)(/| )')
-htm_links_re = compile_re('href=.http.?://(.*?)(/| )')
+txt_links_re = compile_re('http.?://([^./]*?\.)*([^./]*?\.[^./]*?)[/ \n]')
+htm_links_re = compile_re('href=.http.?://([^./]*?\.)*([^./]*?\.[^./]*?)[/ "\n]')
 
 
 def max_same_links(t, links_re):
-	domains = [a[0] for a in links_re.findall(str(t))]
+	domains = [a[1] for a in links_re.findall(str(t))]
 	occurences = [domains.count(a) for a in domains]
 	occurences.sort()
 	return occurences[-1] if len(occurences) else 0

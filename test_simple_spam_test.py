@@ -41,8 +41,8 @@ def test_spam_test_theoritical_cases(stdin_eml):
 	>>> spam_test('Subject: =?gb2312?B?Encoding error score 2 代 =?=\\n'
 	... 'Date:Wed, 26 Apr 2017 16:20:14 +0200\\nReceived:Wed, 26 Apr 2017 16:21:14 +0200',DEBUG)
 	3
-	>>> spam_test('Subject: Near past +6 h \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
-	... 'Received:Wed, 26 Apr 2017 22:21:14 +0200', DEBUG)
+	>>> spam_test('Subject: Near past +1 d \\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
+	... 'Received:Wed, 27 Apr 2017 22:21:14 +0200', DEBUG)
 	3
 	>>> spam_test('Subject: Near futur -2 h\\nDate: Wed, 26 Apr 2017 16:20:14 +0200\\n'
 	... 'Received:Wed, 26 Apr 2017 14:19:14 +0200', DEBUG)
