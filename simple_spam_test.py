@@ -85,7 +85,7 @@ def spam_test_eml_log(stdin_eml, debug=0):
 	elif same_links:
 		a = max_same_links(body, txt_links_re)
 
-		if a > 4:
+		if a > 7:
 			score += 1
 
 			if a > 14:
@@ -182,7 +182,7 @@ htm_links_re = compile_re('href=.http.?://([^./]*?\.)*([^./]*?\.[^./]*?)[/ "\n]'
 
 
 def max_same_links(t, links_re):
-	domains = [a[1] for a in links_re.findall(str(t))]
+	domains = [a[1] for a in links_re.findall(str(t))]  # list of domain parts, ignoring subdom.
 	occurences = [domains.count(a) for a in domains]
 	occurences.sort()
 	return occurences[-1] if len(occurences) else 0

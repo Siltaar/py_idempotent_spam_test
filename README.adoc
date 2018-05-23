@@ -31,10 +31,10 @@ If an HTML part is bigger than 32k characters, the score is incremented to 1
 if it was 0. If HTML appears to be unvalid, the score is incremented by 1.
 
 ### Link count
-If an HTML part or the biggest text part contains 5 or more links to a same
+If an HTML part or the biggest text part contains 8 or more links to a same
 domain, the score is incremented by 1.
 
-If it is more than 15, the score is incremented again by 1.
+If it is 16 or more, the score is incremented again by 1.
 
 ### Date and time
 If the date and time of the Date header of the email is in the future compared

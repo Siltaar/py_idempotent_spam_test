@@ -92,6 +92,8 @@ def test_spam_test_real_cases(stdin_eml):
 	0
 	>>> spam_test(open('email_test/20180429.eml').read(), DEBUG)  # Trop de liens, même URL
 	1
+	>>> spam_test(open('email_test/20180523.eml').read(), DEBUG)  # Limite sur nombre de liens
+	0
 	"""
 	return spam_test(stdin_eml)
 
