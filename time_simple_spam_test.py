@@ -57,8 +57,10 @@ Python 3.5.3
 20180328 3 : 27 tests ; 2.43s ; 0,900ms/t  - 12.5%
 20180430 2 : 28 tests ; 2.35s ; 0,839ms/t (regexp to count links, if >4 same domain -> +1)
 20180430 3 : 28 tests ; 2.72s ; 0,971ms/t  - 13.5%
-20180504 2 : 27 tests ; 2.17s ; 0,803mt/t (stop counting recipients)
-20180504 3 : 27 tests ; 2.51s ; 0,929mt/t  - 13.5%
+20180504 2 : 27 tests ; 2.17s ; 0,803ms/t (stop counting recipients)
+20180504 3 : 27 tests ; 2.51s ; 0,929ms/t  - 13.5%
+20180523 2 : 28 tests ; 2.32s ; 0,828ms/t (one more real testcase)
+20180523 3 : 28 tests ; 2.68s ; 0,957ms/t  - 13.5%
 
 """
 
