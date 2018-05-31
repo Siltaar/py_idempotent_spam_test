@@ -45,24 +45,23 @@ def spam_test_eml_log(stdin_eml, debug=0):
 		html_src = part.get_payload(decode=True)
 
 		if b'<' not in html_src[:10]:  # looks like malformed HTML
-			debug and put(yel("bad HTML "))
-			log += 'bad HTML '
 			score += 1
+			log += 'bad HTML '
+			debug and put(yel("bad HTML "))
 
 		if len(html_src) > 32000:
 			debug and put(yel("big HTML "))
 			log += 'big HTML '
-			score += score == 0
+			score += 1
 		elif same_links:
 			a = max_same_links(html_src, htm_links_re)
 
-			if a > 4:
-				score += 1
-
+			if a > 7:
 				if a > 14:
-					score += 1
+					score += 2
 					debug and put('same HTML ' + red("links") + " %i " % a)
 				else:
+					score += 1
 					debug and put('same HTML ' + yel("links") + " %i " % a)
 
 				log += 'same HTML links %i ' % a
@@ -77,45 +76,43 @@ def spam_test_eml_log(stdin_eml, debug=0):
 			body = text
 
 	body_len, body_alpha_len = email_alpha_len(body, lambda b: b[:256])
-	# debug and put("body %i/%i " % (body_alpha_len, body_len))
 
 	if body_alpha_len < 20 and len(html_parts) == 0:  # too small, not so interesting
 		score += 1
 		log += 'small body and no HTML '
+		debug and put(yel('small') + ' txt-only ')
 	elif same_links:
 		a = max_same_links(body, txt_links_re)
 
 		if a > 7:
-			score += 1
-
 			if a > 14:
-				score += 1
+				score += 2
 				debug and put('same TXT ' + red("links") + " %i " % a)
 			else:
+				score += 1
 				debug and put('same TXT ' + yel("links") + " %i " % a)
 
 			log += 'same TXT links %i ' % a
-			same_links = False
+			same_links = False  # currently useless
 
 	if body_alpha_len == 0 or body_len // body_alpha_len > 1:
 		score += 1
-		debug and put(yel("body") + " %i/%i " % (body_alpha_len, body_len))
 		log += 'bad body '
+		debug and put(yel("body") + " %i/%i " % (body_alpha_len, body_len))
 
 	subj_len, subj_alpha_len = email_alpha_len(eml.get('Subject', ''), header_str)
-	# debug and put("subj %i/%i " % (subj_alpha_len, subj_len))
 
 	if subj_alpha_len == 0 or subj_len // subj_alpha_len > 1:
 		score += 1  # If no more than 1 ascii char over 2 in subject, I can't read it
-		debug and put(yel("subj") + " %i/%i " % (subj_alpha_len, subj_len))
 		log += 'bad subj '
+		debug and put(yel("subj") + " %i/%i " % (subj_alpha_len, subj_len))
 
 	from_len, from_alpha_len = email_alpha_len(parseaddr(eml.get('From', ''))[0], header_str)
 
 	if from_len > 0 and (from_alpha_len == 0 or from_len // from_alpha_len > 1):
 		score += score > 0
-		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
 		log += 'bad from '
+		debug and put(yel("from") + " %i/%i " % (from_alpha_len, from_len))
 
 	# recipient_count = len(getaddresses(eml.get_all('To', []) + eml.get_all('Cc', [])))
 
@@ -130,24 +127,22 @@ def spam_test_eml_log(stdin_eml, debug=0):
 		eml.get('Date', 'Sat, 01 Jan 0001 01:01:01 +0000'))))
 
 	if eml_dt < recv_dt - timedelta(days=1) or eml_dt > recv_dt + timedelta(hours=1):
-		# debug and put("date %s recv %s " % (eml_dt, recv_dt))
-		score += 1
-
 		if eml_dt < recv_dt - timedelta(days=15) or \
 			eml_dt > recv_dt + timedelta(days=2):
-			debug and put(red("time") + " %s " % str(recv_dt - eml_dt))
-			score += 1
+			score += 2
 			log += 'far time '
+			debug and put(red("time") + " %s " % str(recv_dt - eml_dt))
 		else:
-			debug and put(yel("time") + " %s " % str(recv_dt - eml_dt))
+			score += 1
 			log += 'near time '
+			debug and put(yel("time") + " %s " % str(recv_dt - eml_dt))
 
 	if (eml.get('X-Spam-Status', '').lower() == 'yes' or
 		eml.get('X-Spam-Flag', '').lower() == 'yes' or
-		len(eml.get('X-Spam-Level', '')) > 3):
-		debug and put(yel(" X-Spam "))
+		len(eml.get('X-Spam-Level', '')) > 2):
 		score += 1
 		log += 'X-Spam '
+		debug and put(yel("X-Spam "))
 
 	debug and put('\033[1;35m%s\033[0m\n' % score)  # purple
 	return score, eml, log

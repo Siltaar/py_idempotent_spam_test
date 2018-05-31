@@ -58,7 +58,7 @@ def test_spam_test_theoritical_cases(stdin_eml):
 	4
 	>>> spam_test('X-Spam-Status: Yes', DEBUG)
 	6
-	>>> spam_test('X-Spam-Level: ****', DEBUG)
+	>>> spam_test('X-Spam-Level: ***', DEBUG)
 	6
 	"""
 	# >>> spam_test('To:a@a.tk,b@b.tk,c@c.tk,d@d.tk,e@e.tk,f@f.tk,g@g.tk,'
@@ -75,11 +75,11 @@ def test_spam_test_real_cases(stdin_eml):
 	>>> spam_test(open('email_test/20171012.eml').read(), DEBUG)  # no text nor HTML part
 	3
 	>>> spam_test(open('email_test/20171107.eml').read(), DEBUG)  # longer chinese content
-	3
+	4
 	>>> spam_test(open('email_test/20171130.eml').read(), DEBUG)  # PGP ciphered email
 	0
 	>>> spam_test(open('email_test/20171219.eml').read(), DEBUG)  # chinese base64 body
-	2
+	3
 	>>> spam_test(open('email_test/20180130.eml').read(), DEBUG)  # no text, bad HTML
 	2
 	>>> spam_test(open('email_test/20180321.eml').read(), DEBUG)  # small body chinese Subj, To:
